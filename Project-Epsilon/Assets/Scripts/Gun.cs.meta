@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 4c1410baae81f084d8605edeeba0cf7a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - reloadInputActionReferenceLeft: {fileID: -9040763159073675619, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
+  - reloadInputActionReferenceRight: {fileID: -7508129450654155458, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
+  - bulletCount: {instanceID: 0}
+  - bulletPrefab: {instanceID: 0}
+  - bulletController: {instanceID: 0}
+  - bulletSpawnPoint: {instanceID: 0}
+  - audioSource: {instanceID: 0}
+  - gunShot: {instanceID: 0}
+  - falseFire: {instanceID: 0}
+  - chamberEmpty: {instanceID: 0}
+  - reloadClip: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

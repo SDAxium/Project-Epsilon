@@ -58,9 +58,10 @@ public class TargetController : MonoBehaviour
             yield break;
         }
         
-        // If active target list is full, wait until it isn't
-        if (activeTargets.Count >= maxTargets) yield return new WaitUntil(() => activeTargets.Count < maxTargets);
-        GameObject bulletTarget;
+        // If active target list is not full, spawn a new target
+        if (!(activeTargets.Count >= maxTargets))
+        {
+            GameObject bulletTarget;
         switch (_spawningCase)
         {
             case 0://Strafing Targets Only
@@ -129,6 +130,8 @@ public class TargetController : MonoBehaviour
         bulletTarget.GetComponent<HitTarget>().SetNewRandomValues();
         activeTargets.Add(bulletTarget);
         bulletTarget.SetActive(true);
+        }
+        
         yield return new WaitForSeconds(3f);
         yield return TargetSpawning();
     }

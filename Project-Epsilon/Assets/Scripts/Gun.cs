@@ -34,10 +34,14 @@ public class Gun : MonoBehaviour
     {
         GameObject bullet = _bc.GetBullet();
         
-        bullet.transform.position = bulletSpawnPoint.position;
+        //bullet.transform.SetParent(gameObject.transform);
+        bullet.GetComponent<Bullet>().barrel = gameObject.transform.Find("Bullet Spawn Point");
+
+        var position = bulletSpawnPoint.position;
+        bullet.transform.position = position;
         bullet.transform.rotation = bulletSpawnPoint.rotation;
         
-        AudioSource.PlayClipAtPoint(audioClip,bulletSpawnPoint.position);
+        AudioSource.PlayClipAtPoint(audioClip,position);
     }
    
 }

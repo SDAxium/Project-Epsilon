@@ -10,11 +10,6 @@ namespace Controllers
         public List<GameObject> inactiveBullets = new List<GameObject>();
         public List<GameObject> activeBullets = new List<GameObject>();
 
-        private void Start()
-        {
-       
-        }
-
         public GameObject GetBullet()
         {
             GameObject bullet;

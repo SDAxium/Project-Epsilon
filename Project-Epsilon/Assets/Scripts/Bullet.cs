@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
 
     public void Awake()
     {
-        barrel = GameObject.Find("Bullet Spawn Point").transform;
+        //barrel = transform.parent.Find("Bullet Spawn Point").transform;
         active = true;
     }
 

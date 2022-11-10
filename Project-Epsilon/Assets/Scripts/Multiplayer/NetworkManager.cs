@@ -1,20 +1,22 @@
 using System;
-using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine;
 
+namespace Multiplayer
+{
     public class NetworkManager : MonoBehaviourPunCallbacks
     {
-        // Start is called before the first frame update
         void Start()
         {
-            
+            Debug.Log("Connecting to server");
+            PhotonNetwork.ConnectUsingSettings();
         }
 
-        private void ConnectedToServer()
+        public void ConnectToServer()
         {
-            PhotonNetwork.ConnectUsingSettings();
             Debug.Log("Connecting to server");
+            PhotonNetwork.ConnectUsingSettings();
         }
 
         public override void OnConnectedToMaster()
@@ -22,9 +24,9 @@ using Photon.Realtime;
             Debug.Log("Connected to server");
             base.OnConnectedToMaster();
 
-            var roomOptions = new RoomOptions
+            RoomOptions roomOptions = new RoomOptions
             {
-                MaxPlayers = 3,
+                MaxPlayers = 2,
                 IsVisible = true,
                 IsOpen = true
             };
@@ -44,3 +46,4 @@ using Photon.Realtime;
             base.OnPlayerEnteredRoom(newPlayer);
         }
     }
+}

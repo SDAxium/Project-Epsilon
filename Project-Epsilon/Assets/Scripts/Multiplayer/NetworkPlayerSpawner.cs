@@ -1,18 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class NetworkPlayerSpawner : MonoBehaviour
+namespace Multiplayer
 {
-    // Start is called before the first frame update
-    void Start()
+    public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
     {
-        
-    }
+        public GameObject spawnedPlayerPrefab;
+        public Transform  player1Spawn,player2Spawn;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private Vector3 playerSpawn;
+        public override void OnJoinedRoom()
+        {
+            base.OnJoinedRoom();
+            playerSpawn = PhotonNetwork.CurrentRoom.PlayerCount > 0 ? player1Spawn.position : player2Spawn.position;
+            
+            spawnedPlayerPrefab = PhotonNetwork.Instantiate("Player",playerSpawn,transform.rotation);
+        }
+
+        public override void OnLeftRoom()
+        {
+            base.OnLeftRoom();
+            PhotonNetwork.Destroy(spawnedPlayerPrefab);
+        }
     }
 }

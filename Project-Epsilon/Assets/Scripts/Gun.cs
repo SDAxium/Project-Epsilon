@@ -1,28 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Controllers;
+using TMPro;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Gun : MonoBehaviour
 {
-    //Unused Variables
-    private int _magazineCount;
-    private int _reloadTime; 
+    public AudioClip chamberEmpty;
+    public AudioClip gunReload;
     
-    //End of Unused Variables
-    public GameObject bulletPrefab;
+    private int _currentBullets;
+    public int maxBullets;
+    private int _reloadTime;
+
+    private TextMeshProUGUI _bulletCountText; 
+    
     public GameObject bulletController;// Reference to the bullet controller object
     private BulletController _bc;
     public Transform bulletSpawnPoint;
     
     public AudioSource audioSource;
-    public AudioClip audioClip;
-   
+    public AudioClip gunshotClip;
     void Start()
     {
+        _currentBullets = maxBullets;
+        _bulletCountText = gameObject.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        _bulletCountText.text = maxBullets.ToString();
+        
         bulletController = GameObject.Find("Bullet Controller");
         _bc = bulletController.GetComponent<BulletController>();
-        //InvokeRepeating(nameof(Fire),3,0.5f);
+
     }
 
     /*
@@ -32,6 +41,11 @@ public class Gun : MonoBehaviour
      */
     public void Fire()
     {
+        if (_currentBullets == 0)
+        {
+            gameObject.GetComponent<AudioSource>().PlayOneShot(chamberEmpty);
+            return;
+        }
         GameObject bullet = _bc.GetBullet();
         
         //bullet.transform.SetParent(gameObject.transform);
@@ -41,7 +55,17 @@ public class Gun : MonoBehaviour
         bullet.transform.position = position;
         bullet.transform.rotation = bulletSpawnPoint.rotation;
         
-        AudioSource.PlayClipAtPoint(audioClip,position);
+        AudioSource.PlayClipAtPoint(gunshotClip,position);
+
+        _currentBullets--;
+        _bulletCountText.text = _currentBullets.ToString();
     }
-   
+
+    public void Reload()
+    {
+        _currentBullets = maxBullets;
+        _bulletCountText.text = _currentBullets.ToString();
+        
+        AudioSource.PlayClipAtPoint(gunReload,transform.position);
+    }
 }

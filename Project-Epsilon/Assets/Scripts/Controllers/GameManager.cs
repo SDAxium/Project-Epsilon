@@ -33,11 +33,11 @@ namespace Controllers
 
         void Start()
         {
-            if(!GameObject.FindWithTag("Player"))
-            {
-                player = Instantiate(player);
-                instance.GetComponent<LocomotionSystem>().xrOrigin = player.GetComponent<XROrigin>();
-            }
+            // if(!GameObject.FindWithTag("Player"))
+            // {
+            //     player = Instantiate(player);
+            //     instance.GetComponent<LocomotionSystem>().xrOrigin = player.GetComponent<XROrigin>();
+            // }
         }
 
         void Update()

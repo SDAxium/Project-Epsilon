@@ -6,6 +6,8 @@ public class Bullet : MonoBehaviour
     public Transform barrel;
     public bool active;
 
+    public int playerRef;
+
     public void Awake()
     {
         //barrel = transform.parent.Find("Bullet Spawn Point").transform;
@@ -33,6 +35,6 @@ public class Bullet : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Target")) active = false;
+        if (!collision.gameObject.CompareTag("Bullet")) active = false;
     }
 }

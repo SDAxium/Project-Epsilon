@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6690092941496367463}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.065, z: -0.05}
+  m_LocalPosition: {x: 0.002, y: -0.0392, z: -0.052}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -169,11 +169,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 28.65
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 12
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -503,10 +503,10 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
-  m_AttachTransform: {fileID: 0}
+  m_AttachTransform: {fileID: 8305170249454389719}
   m_UseDynamicAttach: 0
-  m_MatchAttachPosition: 1
-  m_MatchAttachRotation: 1
+  m_MatchAttachPosition: 0
+  m_MatchAttachRotation: 0
   m_SnapToColliderVolume: 1
   m_AttachEaseInTime: 0.15
   m_MovementType: 2
@@ -556,12 +556,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1410baae81f084d8605edeeba0cf7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 5286022794395928482, guid: 99d0f141cfa088a4d86692764800157d,
-    type: 3}
+  chamberEmpty: {fileID: 8300000, guid: dad73de9f72e12d49846c1d4c8445051, type: 3}
+  gunReload: {fileID: 8300000, guid: d8d24e269d559ac478a444ba4ea10e78, type: 3}
+  maxBullets: 30
   bulletController: {fileID: 0}
   bulletSpawnPoint: {fileID: 7436714475329255039}
   audioSource: {fileID: 7436714474832173685}
-  audioClip: {fileID: 8300000, guid: 52470ae918eb7a1469fd0bf745fa2ee2, type: 3}
+  gunshotClip: {fileID: 8300000, guid: 52470ae918eb7a1469fd0bf745fa2ee2, type: 3}
 --- !u!82 &7436714474832173685
 AudioSource:
   m_ObjectHideFlags: 0
@@ -573,7 +574,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 52470ae918eb7a1469fd0bf745fa2ee2, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -582,7 +583,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.2536954
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -669,7 +670,6 @@ GameObject:
   - component: {fileID: 7436714475047524085}
   - component: {fileID: 7436714475047524072}
   - component: {fileID: 7436714475047524075}
-  - component: {fileID: 7436714475047524074}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -742,23 +742,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 1
---- !u!114 &7436714475047524074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7436714475047524084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1 &7436714475150546559
 GameObject:
   m_ObjectHideFlags: 0

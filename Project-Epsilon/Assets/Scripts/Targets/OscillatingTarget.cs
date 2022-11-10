@@ -15,16 +15,16 @@ namespace Targets
         public override void SetNewRandomValues()
         {
             Timer = Random.Range(0, 181);
-            TargetSpeed = Random.Range(1, 3);
+            targetSpeed = Random.Range(1, 3);
             _rotationHeight = Random.Range(4, 16);
             _rotationWidth = Random.Range(4, 16);
             _oscillationCase = Random.Range(1, 4);
-            SetRotationCenter(player.transform);
+            SetRotationCenter(targetPlayer.transform.position);
         }
         
         public override void UpdateLocation()
         {
-            Timer += Time.deltaTime*TargetSpeed;
+            Timer += Time.deltaTime*targetSpeed;
             float horizontalRotation;
             float verticalRotation;
 
@@ -51,16 +51,15 @@ namespace Targets
                     transform.position = new Vector3(horizontalRotation, verticalRotation, _rotationCenterZ);
                     break;
             }
-            transform.LookAt(player.transform);
+            transform.LookAt(targetPlayer.transform);
             transform.Rotate(Vector3.right,90f);
         }
         
-        private void SetRotationCenter(Transform playerTransform)
+        private void SetRotationCenter(Vector3 rotationCenter)
         {
-            var position = playerTransform.position;
-            _rotationCenterX = position.x;
-            _rotationCenterY = position.y;
-            _rotationCenterZ = position.z;
+            _rotationCenterX = rotationCenter.x;
+            _rotationCenterY = rotationCenter.y;
+            _rotationCenterZ = rotationCenter.z;
         }
     }
 }

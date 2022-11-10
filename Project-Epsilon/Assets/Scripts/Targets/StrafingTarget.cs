@@ -26,19 +26,18 @@ namespace Targets
              * Sets the spawn point to a random value around the player
              * If the target spawns below the player, moves the target so that it is level or above the player
              */
-            _spawnPoint = Random.onUnitSphere*_distanceFromPlayer + player.transform.position;
-            if (_spawnPoint.y < player.transform.position.y) _spawnPoint += 
-                new Vector3(0,Mathf.Abs(_spawnPoint.y)+ Random.Range(0,11),0);
+            _spawnPoint = Random.onUnitSphere*_distanceFromPlayer + targetPlayer.transform.position;
+            _spawnPoint.y = MathF.Abs(_spawnPoint.y);
             
             // Cases: X,Y,Z,XY,XZ,YZ
             _strafeCase = Random.Range(1, 7);
 
             _strafeDistance = Random.Range(2, 6);
-            TargetSpeed = Random.Range(1, 3); 
+            targetSpeed = Random.Range(1, 3); 
         }
         public override  void UpdateLocation()
         {
-            Timer += Time.deltaTime*TargetSpeed;
+            Timer += Time.deltaTime*targetSpeed;
             switch (_strafeCase)
             {
                 case 1:
@@ -46,7 +45,7 @@ namespace Targets
                     _pointTwo = _spawnPoint + Vector3.right * _strafeDistance;
                     break;
                 case 2:
-                    if (_spawnPoint.y - _strafeDistance < player.transform.position.y)
+                    if (_spawnPoint.y - _strafeDistance < targetPlayer.transform.position.y)
                     {
                         _spawnPoint += new Vector3(0, Mathf.Abs(_spawnPoint.y - _strafeDistance), 0);
                     }
@@ -58,7 +57,7 @@ namespace Targets
                     _pointTwo = _spawnPoint + Vector3.forward * _strafeDistance;
                     break;
                 case 4:
-                    if (_spawnPoint.y - _strafeDistance/2f < player.transform.position.y)
+                    if (_spawnPoint.y - _strafeDistance/2f < targetPlayer.transform.position.y)
                     {
                         _spawnPoint += new Vector3(0, Mathf.Abs(_spawnPoint.y - _strafeDistance), 0);
                     }
@@ -70,7 +69,7 @@ namespace Targets
                     _pointTwo = _spawnPoint - new Vector3(_strafeDistance/2f,0,_strafeDistance/2f);
                     break;
                 case 6:
-                    if (_spawnPoint.y - _strafeDistance/2f < player.transform.position.y)
+                    if (_spawnPoint.y - _strafeDistance/2f < targetPlayer.transform.position.y)
                     {
                         _spawnPoint += new Vector3(0, Mathf.Abs(_spawnPoint.y - _strafeDistance), 0);
                     }
@@ -83,7 +82,7 @@ namespace Targets
                     break;
             }
             transform.position = Vector3.Lerp(_pointOne, _pointTwo, (Mathf.Sin(Timer)+1.0f)/2.0f);
-            transform.LookAt(player.transform);
+            transform.LookAt(targetPlayer.transform);
             transform.Rotate(Vector3.right,90f);
         }
     }

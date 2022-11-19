@@ -17,10 +17,10 @@ namespace Multiplayer
         
         }
 
-        public void setAreaProvider()
+        public void SetAreaProvider()
         {
             GameObject.Find("Ground").GetComponent<TeleportationArea>().teleportationProvider =
-                this.GetComponent<TeleportationProvider>();
+                GetComponent<TeleportationProvider>();
         }
     }
 }

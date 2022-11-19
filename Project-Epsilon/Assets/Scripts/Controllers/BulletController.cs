@@ -10,7 +10,7 @@ namespace Controllers
         public List<GameObject> inactiveBullets = new List<GameObject>();
         public List<GameObject> activeBullets = new List<GameObject>();
 
-        public GameObject GetBullet()
+        public GameObject GetBullet(Gun gun)
         {
             GameObject bullet;
         
@@ -26,7 +26,8 @@ namespace Controllers
                 bullet = Instantiate(bulletPrefab);
                 activeBullets.Add(bullet);
             }
-        
+            
+            bullet.GetComponent<Bullet>().SetGun(gun);
             bullet.GetComponent<Bullet>().active = true;
             return bullet;
         }

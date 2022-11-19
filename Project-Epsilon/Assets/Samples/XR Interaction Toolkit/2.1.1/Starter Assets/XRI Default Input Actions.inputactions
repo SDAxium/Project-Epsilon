@@ -1373,6 +1373,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Custom ",
+            "id": "5d405aa6-efae-4175-9ab9-aeacd43ab3ed",
+            "actions": [
+                {
+                    "name": "ToTeleport Left",
+                    "type": "Button",
+                    "id": "47be859c-1d2b-43a5-a9f8-6d6cd353b87a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToTeleportRight",
+                    "type": "Button",
+                    "id": "5170a1ef-49e5-4328-85f9-39656cec293b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "215bf022-7a78-477e-9933-39b887d464de",
+                    "path": "<XRController>{LeftHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToTeleport Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3c4f568e-44c7-4bfc-b429-6f133c0e2b5e",
+                    "path": "<XRController>{RightHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToTeleportRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

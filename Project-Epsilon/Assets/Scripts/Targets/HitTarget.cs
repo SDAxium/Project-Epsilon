@@ -51,7 +51,7 @@ namespace Targets
         private void Awake()
         {
             targetActive = true;
-            targetPlayer = GameObject.Find("Player");
+            targetPlayer = GameObject.FindWithTag("Player");
             origin = GameObject.Find("origin");
         }
 

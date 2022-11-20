@@ -9,8 +9,7 @@ namespace Multiplayer
     {
         void Start()
         {
-            Debug.Log("Connecting to server");
-            PhotonNetwork.ConnectUsingSettings();
+            ConnectToServer();
         }
 
         public void ConnectToServer()

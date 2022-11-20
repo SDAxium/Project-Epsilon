@@ -1794,7 +1794,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277833df431fc7e43a2c4dff9a2b61e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasTeleportGun: 0
 --- !u!1 &6381682198348418504
 GameObject:
   m_ObjectHideFlags: 0

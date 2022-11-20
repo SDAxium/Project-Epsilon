@@ -60,6 +60,11 @@ namespace Targets
             SetNewRandomValues();
         }
 
+        private void Update()
+        {
+            targetPlayer = GameObject.FindWithTag("Player");
+        }
+
         public virtual void SetNewRandomValues()
         {
             _canTakeBulletsFrom = Random.Range(0, 3);

@@ -54,11 +54,11 @@ public class Bullet : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("TeleportArea"))
             {
-                print("we made it");
                 gunOrigin.GetCurrentPlayer().transform.position = transform.position;
                 active = false;
             }
         }
+        
         
     }
 }

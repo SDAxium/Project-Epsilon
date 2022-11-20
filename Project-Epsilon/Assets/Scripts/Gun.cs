@@ -13,7 +13,7 @@ public class Gun : MonoBehaviour
     
     public AudioClip chamberEmpty;
     public AudioClip gunReload;
-
+    
     protected int _currentBullets;
     public int maxBullets = 30;
     protected int _reloadTime;
@@ -27,16 +27,11 @@ public class Gun : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip gunshotClip;
 
-    public bool teleportOn = false;
+    public bool teleportOn;
 
     protected virtual void Awake()
     {
         toggleToTeleport.action.started += ToggleTeleport;
-    }
-
-    protected virtual void OnDestroy()
-    {
-        toggleToTeleport.action.started -= ToggleTeleport;
     }
 
     public GameObject GetCurrentPlayer()
@@ -58,14 +53,15 @@ public class Gun : MonoBehaviour
 
     void ToggleTeleport(InputAction.CallbackContext context)
     {
+        print($"Teleport is: {teleportOn}");
         teleportOn = !teleportOn;
     }
     
-    /*
-     * Fires a Bullet
-     * If there are any inactive bullets, an inactive bullet is taken and removed from the inactive list
-     * If there are no inactive bullets, a new bullet is instantiated
-     */
+    /// <summary>
+    /// Fires a Bullet.
+    /// If there are any inactive bullets, an inactive bullet is taken and removed from the inactive list.
+    /// If there are no inactive bullets, a new bullet is instantiated.
+    /// </summary>
     public void Fire()
     {
         if (_currentBullets == 0)
@@ -96,10 +92,16 @@ public class Gun : MonoBehaviour
         
         AudioSource.PlayClipAtPoint(gunReload,transform.position);
     }
+    
+    /// <summary>
+    /// This originally set the teleport area of the game to the player holding the gun.
+    ///
+    /// Since teleportation has been given to all players, this is no longer in use. It doesn't help that it no longer works
+    /// </summary>
     public void OnSelected()
     {
+        print("HERE");
         GetComponent<XRGrabInteractable>().GetOldestInteractorSelecting(). //grab interactor
             transform.root.GetComponent <Multiplayer.NetworkPlayer>().SetAreaProvider();
-        
     }
 }

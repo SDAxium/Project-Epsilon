@@ -182,13 +182,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1410baae81f084d8605edeeba0cf7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toggleToTeleport: {fileID: -8084462780833601035, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
   chamberEmpty: {fileID: 8300000, guid: dad73de9f72e12d49846c1d4c8445051, type: 3}
   gunReload: {fileID: 8300000, guid: d8d24e269d559ac478a444ba4ea10e78, type: 3}
   maxBullets: 30
   bulletController: {fileID: 0}
-  bulletSpawnPoint: {fileID: 0}
-  audioSource: {fileID: 0}
+  bulletSpawnPoint: {fileID: 2153697512280640897}
+  audioSource: {fileID: 2928389281241713133}
   gunshotClip: {fileID: 8300000, guid: 52470ae918eb7a1469fd0bf745fa2ee2, type: 3}
+  teleportOn: 0
 --- !u!54 &8827796029394905188
 Rigidbody:
   m_ObjectHideFlags: 0

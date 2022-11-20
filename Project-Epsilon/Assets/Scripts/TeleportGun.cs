@@ -6,5 +6,5 @@ using NetworkPlayer = Multiplayer.NetworkPlayer;
 
 public class TeleportGun : Gun
 {
-   
+    
 }

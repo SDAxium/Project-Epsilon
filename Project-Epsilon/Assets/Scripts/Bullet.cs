@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour
     public Transform barrel;
     public bool active;
 
-    public int playerRef;
+    public int playerRef = 0;
 
     private bool _isTeleportEnabled = false;
     public void Awake()
@@ -48,8 +48,6 @@ public class Bullet : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        // if (!collision.gameObject.CompareTag("Bullet")) active = false;
-
         if (_isTeleportEnabled)
         {
             if (collision.gameObject.CompareTag("TeleportArea"))
@@ -58,7 +56,12 @@ public class Bullet : MonoBehaviour
                 active = false;
             }
         }
-        
+
+        if (!collision.gameObject.CompareTag("Bullet") && !collision.gameObject.CompareTag("Gun"))
+        {
+            print($"Colliding with {collision.gameObject.name}");
+            active = false;
+        }
         
     }
 }

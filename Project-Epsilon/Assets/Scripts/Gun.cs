@@ -83,6 +83,8 @@ public class Gun : MonoBehaviour
 
         _currentBullets--;
         _bulletCountText.text = _currentBullets.ToString();
+
+        if (teleportOn) teleportOn = false;
     }
 
     public void Reload()

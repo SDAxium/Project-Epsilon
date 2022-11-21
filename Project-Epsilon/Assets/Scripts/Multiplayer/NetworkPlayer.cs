@@ -5,6 +5,8 @@ namespace Multiplayer
 {
     public class NetworkPlayer : MonoBehaviour
     {
+        public int reference;
+
         // Start is called before the first frame update
         void Start()
         {

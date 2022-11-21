@@ -38,6 +38,8 @@ namespace Controllers
             //     player = Instantiate(player);
             //     instance.GetComponent<LocomotionSystem>().xrOrigin = player.GetComponent<XROrigin>();
             // }
+
+            //print(GameObject.Find("robo_orb").GetComponent<MeshRenderer>().materials[4].color.ToString());
         }
 
         void Update()

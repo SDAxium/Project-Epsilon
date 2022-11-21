@@ -12,7 +12,7 @@ namespace Targets
         
         // Multiplayer Thing
         // Using to this to track which player can shoot this target. 0 is both. 1 is player 1. 2 is player 2
-        private int _canTakeBulletsFrom;
+        private int _canTakeBulletsFrom = 0;
         //
         
         private const int Stationary = 0;
@@ -196,16 +196,23 @@ namespace Targets
         
         public virtual void OnCollisionEnter(Collision other)
         {
-            if (!other.gameObject.CompareTag("Bullet")) return;
-            if (_canTakeBulletsFrom == 0)
+            print(_canTakeBulletsFrom);
+            if (!other.gameObject.CompareTag("Bullet"))
             {
-                targetActive = false;
             }
             else
             {
-                // Check if bullet was shot by the player that can hit this target and deactivate target if it can 
-                targetActive = !other.gameObject.GetComponent<Bullet>().playerRef.Equals(_canTakeBulletsFrom);
+                if (_canTakeBulletsFrom == 0)
+                {
+                    targetActive = false;
+                }
+                else
+                {
+                    // Check if bullet was shot by the player that can hit this target and deactivate target if it can 
+                    targetActive = !other.gameObject.GetComponent<Bullet>().playerRef.Equals(_canTakeBulletsFrom);
+                }    
             }
+            
         }
     }
 }

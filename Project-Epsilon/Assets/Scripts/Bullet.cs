@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
 
     public int playerRef = 0;
 
-    private bool _isTeleportEnabled = false;
+    public bool isTeleportEnabled;
     public void Awake()
     {
         //barrel = transform.parent.Find("Bullet Spawn Point").transform;
@@ -24,7 +24,7 @@ public class Bullet : MonoBehaviour
         gunOrigin = gun;
         if (gunOrigin.teleportOn)
         {
-            _isTeleportEnabled = true;
+            isTeleportEnabled = true;
         }
     }
     private void Update()
@@ -48,7 +48,7 @@ public class Bullet : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (_isTeleportEnabled)
+        if (isTeleportEnabled)
         {
             if (collision.gameObject.CompareTag("TeleportArea"))
             {

@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gradient Dotted Line
+  m_Name: gradient_dotted_line
   m_Shader: {fileID: -6465566751694194690, guid: 12ed2afe6f1f4034588360980ef57953,
     type: 3}
   m_ValidKeywords: []

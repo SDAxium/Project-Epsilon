@@ -2577,6 +2577,23 @@ PrefabInstance:
       propertyPath: bulletController
       value: 
       objectReference: {fileID: 1552339362}
+    - target: {fileID: 2458519233296065860, guid: 6a39422f4b9f97640a85cc25dcd3f981,
+        type: 3}
+      propertyPath: toggleToTeleport.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458519233296065860, guid: 6a39422f4b9f97640a85cc25dcd3f981,
+        type: 3}
+      propertyPath: toggleToTeleport.Array.data[0]
+      value: 
+      objectReference: {fileID: 6595676158567143852, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 2458519233296065860, guid: 6a39422f4b9f97640a85cc25dcd3f981,
+        type: 3}
+      propertyPath: toggleToTeleport.Array.data[1]
+      value: 
+      objectReference: {fileID: -8084462780833601035, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
     - target: {fileID: 2753117367754735883, guid: 6a39422f4b9f97640a85cc25dcd3f981,
         type: 3}
       propertyPath: m_RootOrder
@@ -5929,6 +5946,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -8084462780833601035, guid: c348712bda248c246b8c49b3db54643f,
         type: 3}
+    - target: {fileID: 2458519233296065860, guid: 6a39422f4b9f97640a85cc25dcd3f981,
+        type: 3}
+      propertyPath: toggleToTeleport.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458519233296065860, guid: 6a39422f4b9f97640a85cc25dcd3f981,
+        type: 3}
+      propertyPath: toggleToTeleport.Array.data[0]
+      value: 
+      objectReference: {fileID: 6595676158567143852, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 2458519233296065860, guid: 6a39422f4b9f97640a85cc25dcd3f981,
+        type: 3}
+      propertyPath: toggleToTeleport.Array.data[1]
+      value: 
+      objectReference: {fileID: -8084462780833601035, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
     - target: {fileID: 2753117367754735883, guid: 6a39422f4b9f97640a85cc25dcd3f981,
         type: 3}
       propertyPath: m_RootOrder
@@ -6850,6 +6884,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -8084462780833601035, guid: c348712bda248c246b8c49b3db54643f,
         type: 3}
+    - target: {fileID: 2458519233296065860, guid: 6a39422f4b9f97640a85cc25dcd3f981,
+        type: 3}
+      propertyPath: toggleToTeleport.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458519233296065860, guid: 6a39422f4b9f97640a85cc25dcd3f981,
+        type: 3}
+      propertyPath: toggleToTeleport.Array.data[0]
+      value: 
+      objectReference: {fileID: 6595676158567143852, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 2458519233296065860, guid: 6a39422f4b9f97640a85cc25dcd3f981,
+        type: 3}
+      propertyPath: toggleToTeleport.Array.data[1]
+      value: 
+      objectReference: {fileID: -8084462780833601035, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
     - target: {fileID: 2753117367754735883, guid: 6a39422f4b9f97640a85cc25dcd3f981,
         type: 3}
       propertyPath: m_RootOrder
@@ -7047,8 +7098,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1410baae81f084d8605edeeba0cf7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toggleToTeleport: {fileID: -8084462780833601035, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
+  toggleToTeleport:
+  - {fileID: 6595676158567143852, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  - {fileID: -8084462780833601035, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   chamberEmpty: {fileID: 8300000, guid: dad73de9f72e12d49846c1d4c8445051, type: 3}
   gunReload: {fileID: 8300000, guid: d8d24e269d559ac478a444ba4ea10e78, type: 3}
   maxBullets: 30

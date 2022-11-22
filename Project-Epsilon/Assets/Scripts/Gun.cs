@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 
 public class Gun : MonoBehaviour
 {
-    public InputActionReference toggleToTeleport = null;
+    public List<InputActionReference> toggleToTeleport;
     
     public AudioClip chamberEmpty;
     public AudioClip gunReload;
@@ -31,7 +31,10 @@ public class Gun : MonoBehaviour
 
     protected virtual void Awake()
     {
-        toggleToTeleport.action.started += ToggleTeleport;
+        foreach (InputActionReference reference in toggleToTeleport)
+        {
+            reference.action.started += ToggleTeleport;
+        }
     }
 
     public GameObject GetCurrentPlayer()
@@ -54,7 +57,11 @@ public class Gun : MonoBehaviour
     void ToggleTeleport(InputAction.CallbackContext context)
     {
         print($"Teleport is: {teleportOn}");
-        teleportOn = !teleportOn;
+        if (GetComponent<XRGrabInteractable>().interactorsSelecting != null)
+        {
+            teleportOn = !teleportOn;
+        }
+        
     }
     
     /// <summary>
@@ -84,7 +91,13 @@ public class Gun : MonoBehaviour
         _currentBullets--;
         _bulletCountText.text = _currentBullets.ToString();
 
-        if (teleportOn) teleportOn = false;
+        if (teleportOn)
+        {
+            bullet.GetComponent<Bullet>().isTeleportEnabled = teleportOn;
+            print("Turning teleport off");
+            teleportOn = false;
+            print($"teleporting is {teleportOn}");
+        }
     }
 
     public void Reload()

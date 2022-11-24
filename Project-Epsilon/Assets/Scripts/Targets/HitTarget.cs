@@ -1,4 +1,5 @@
 using System;
+using Controllers;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -6,15 +7,26 @@ namespace Targets
 {
     public class HitTarget : MonoBehaviour
     {
+        public Color defaultColor = new(128,0,202);
+        public Color defaultColor2 = new(69,0,108);
+        public Color playerOneColor = new(17,0,200);
+        public Color playerOneColor2 = new(12,0,137);
+        public Color playerTwoColor = new(209,22,0);
+        public Color playerTwoColor2 = new(132,14,0);
+        
         public GameObject origin;
 
-        public Material defaultMaterial, p1Material, p2Material;
-        
         // Multiplayer Thing
-        // Using to this to track which player can shoot this target. 0 is both. 1 is player 1. 2 is player 2
+        /// <summary>
+        /// Using this to track which player can shoot this target. 0 is both. 1 is player 1. 2 is player 2
+        /// </summary>
         private int _canTakeBulletsFrom = 0;
-        //
-        
+
+        private Material _targetBaseMaterial, _targetBase2Material, _targetEyeMaterial;
+
+        //Base Color and Eye Color are the same
+        private Color _baseColor, _base2Color;
+
         private const int Stationary = 0;
         private const int Strafing = 1;
         private const int Oscillating = 2;
@@ -47,9 +59,13 @@ namespace Targets
         private float _rotationCenterZ;
         
         private int _oscillationCase;
+
+        private MeshRenderer _meshRenderer;
+
         // OSCILLATING TARGET VALUES
         private void Awake()
         {
+            _meshRenderer = gameObject.transform.GetChild(0).GetComponent<MeshRenderer>();
             targetActive = true;
             targetPlayer = GameObject.FindWithTag("Player");
             origin = GameObject.Find("origin");
@@ -57,7 +73,8 @@ namespace Targets
 
         private void Start()
         {
-            SetNewRandomValues();
+            print(gameObject.name);
+            // SetNewRandomValues();
         }
 
         private void Update()
@@ -68,6 +85,31 @@ namespace Targets
         public virtual void SetNewRandomValues()
         {
             _canTakeBulletsFrom = Random.Range(0, 3);
+            var materials = _meshRenderer.materials;
+            switch (_canTakeBulletsFrom)
+            {
+                case 0:
+                    materials[1].color = defaultColor;
+                    materials[4].color = defaultColor;
+                    materials[5].color = defaultColor2;
+                    break;
+                case 1:
+                    materials[1].color = playerOneColor;
+                    materials[4].color = playerOneColor;
+                    materials[5].color = playerOneColor2;
+                    break;
+                case 2: 
+                    materials[1].color = playerTwoColor;
+                    materials[4].color = playerTwoColor;
+                    materials[5].color = playerTwoColor2;
+                    break;
+                default:
+                    materials[1].color = defaultColor;
+                    materials[4].color = defaultColor;
+                    materials[5].color = defaultColor2;
+                    break;
+            }
+            
             switch (_targetMode)
             {
                 case Stationary:
@@ -98,7 +140,7 @@ namespace Targets
                     _spawnPoint.y = MathF.Abs(_spawnPoint.y);
                     break;
             }
-            targetSpeed = Random.Range(0.5f, 2.5f); 
+            targetSpeed = Random.Range(0.5f, 2.0f); 
         }
         public virtual void UpdateLocation()
         {

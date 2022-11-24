@@ -47,7 +47,6 @@ public class Gun : MonoBehaviour
         _currentBullets = maxBullets;
         _bulletCountText = gameObject.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
         _bulletCountText.text = _currentBullets.ToString();
-        print(_currentBullets);
         bulletController = GameObject.Find("Bullet Controller");
         _bc = bulletController.GetComponent<BulletController>();
         
@@ -84,7 +83,6 @@ public class Gun : MonoBehaviour
         var position = bulletSpawnPoint.position;
         bullet.transform.position = position;
         bullet.transform.rotation = bulletSpawnPoint.rotation;
-
         
         AudioSource.PlayClipAtPoint(gunshotClip,position);
 

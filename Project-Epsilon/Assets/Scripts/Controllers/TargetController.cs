@@ -24,12 +24,7 @@ namespace Controllers
         {
             //StartCoroutine(TargetSpawning());
         }
-
-        public void SetSpawningCase(int caseNumber)
-        {
-            _spawningCase = caseNumber;
-        }
-        // Update is called once per frame
+        
         public void Update()
         {
             if (activeTargets.Count <= 0) return;
@@ -47,6 +42,10 @@ namespace Controllers
             }
         }
     
+        /// <summary>
+        ///     Spawns a target a every three seconds as long as there are less than 20 active targets in the scene. 
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator TargetSpawning()
         {
             if (!simulationOn)
@@ -58,7 +57,7 @@ namespace Controllers
             // If active target list is not full, spawn a new target
             if (!(activeTargets.Count >= maxTargets))
             {
-                GameObject bulletTarget; //= inactiveTargets.Count > 0 ? inactiveTargets[0] : Instantiate(targetPrefab);
+                GameObject bulletTarget; 
                 if (inactiveTargets.Count > 0)
                 {
                     bulletTarget = inactiveTargets[0];
@@ -91,13 +90,18 @@ namespace Controllers
                 }
                 bulletTargetHitScript.SetNewRandomValues();
                 bulletTargetHitScript.targetActive = true;
+                print("adding target to active targets");
                 activeTargets.Add(bulletTarget);
                 bulletTarget.SetActive(true);
             }
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(1f);
             yield return TargetSpawning();
         }
     
+        /// <summary>
+        /// Takes a target and removes it from the active targets list. Removed targets are also deactivated 
+        /// </summary>
+        /// <param name="target">The target to put away</param>
         private void PutAwayTarget(GameObject target)
         {
             activeTargets.Remove(target); // Remove from active targets
@@ -105,13 +109,19 @@ namespace Controllers
             target.SetActive(false); // Turn target visibility off
         }
     
+        /// <summary>
+        /// Begins spawning targets 
+        /// </summary>
         public void StartSimulation()
         {
-            _spawningCase = 1;
+            _spawningCase = 3;
             simulationOn = true;
             StartCoroutine(TargetSpawning());
         }
     
+        /// <summary>
+        /// Stops spawning targets and removes all targets in the scene 
+        /// </summary>
         public void EndSimulation()
         {
             simulationOn = false;

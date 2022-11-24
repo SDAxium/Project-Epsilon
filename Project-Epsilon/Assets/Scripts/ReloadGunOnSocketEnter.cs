@@ -9,7 +9,7 @@ public class ReloadGunOnSocketEnter : MonoBehaviour
     void Start()
     {
         socket = GetComponent<XRSocketInteractor>();
-    }
+    }                                           
 
     public void Reload()
     {

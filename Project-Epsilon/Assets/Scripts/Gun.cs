@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
+using NetworkPlayer = Multiplayer.NetworkPlayer;
 
 public class Gun : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class Gun : MonoBehaviour
     public AudioClip gunshotClip;
 
     public bool teleportOn;
-
+    public int currentPlayerReference;
     protected virtual void Awake()
     {
         foreach (InputActionReference reference in toggleToTeleport)
@@ -42,7 +43,7 @@ public class Gun : MonoBehaviour
         return gameObject.GetComponent<XRGrabInteractable>().GetOldestInteractorSelecting().transform.root.gameObject;;
     }
 
-    public virtual void Start()
+    public void Start()
     {
         _currentBullets = maxBullets;
         _bulletCountText = gameObject.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -50,7 +51,29 @@ public class Gun : MonoBehaviour
         bulletController = GameObject.Find("Bullet Controller");
         _bc = bulletController.GetComponent<BulletController>();
         
+        GetComponent<XRGrabInteractable>().selectEntered.AddListener(UpdateOwner);
         Reload();
+    }
+    
+    /// <summary>
+    /// check the interacting player's reference against the index currently on the gun. If the two don't match, update
+    /// the gun's stored index and reload the gun 
+    /// </summary>
+    /// <param name="args"></param>
+    void UpdateOwner(SelectEnterEventArgs args)
+    {
+        // check new reference against previous reference
+        // if new reference is different, reload gun
+        var reference = GetComponent<XRGrabInteractable>().GetOldestInteractorSelecting(). //grab interactor
+            transform.root.GetComponent <NetworkPlayer>().reference;
+
+        if (reference != currentPlayerReference)
+        {
+            currentPlayerReference = reference;
+            Reload();
+        }
+
+        print($"reference is now {currentPlayerReference}");
     }
 
     void ToggleTeleport(InputAction.CallbackContext context)
@@ -76,10 +99,10 @@ public class Gun : MonoBehaviour
             return;
         }
         GameObject bullet = _bc.GetBullet(this);
-
-        //bullet.transform.SetParent(gameObject.transform);
+        
         bullet.GetComponent<Bullet>().barrel = gameObject.transform.Find("Bullet Spawn Point");
-
+        bullet.GetComponent<Bullet>().playerRef = currentPlayerReference;
+        
         var position = bulletSpawnPoint.position;
         bullet.transform.position = position;
         bullet.transform.rotation = bulletSpawnPoint.rotation;
@@ -115,6 +138,6 @@ public class Gun : MonoBehaviour
     {
         print("HERE");
         GetComponent<XRGrabInteractable>().GetOldestInteractorSelecting(). //grab interactor
-            transform.root.GetComponent <Multiplayer.NetworkPlayer>().SetAreaProvider();
+            transform.root.GetComponent <NetworkPlayer>().SetAreaProvider();
     }
 }

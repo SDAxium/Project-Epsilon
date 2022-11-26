@@ -5,10 +5,13 @@ public class Bullet : MonoBehaviour
 {
     public Gun gunOrigin; 
     
-    private const float Speed = 40;
+    private const float Speed = 80;
     public Transform barrel;
     public bool active;
 
+    /// <summary>
+    /// The Player who is firing this bullet
+    /// </summary>
     public int playerRef = 0;
 
     public bool isTeleportEnabled;

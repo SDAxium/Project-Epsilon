@@ -89,9 +89,10 @@ namespace Controllers
                         break;
                 }
                 bulletTargetHitScript.SetNewRandomValues();
-                bulletTargetHitScript.targetActive = true;
+                
                 print("adding target to active targets");
                 activeTargets.Add(bulletTarget);
+                bulletTargetHitScript.targetActive = true;
                 bulletTarget.SetActive(true);
             }
             yield return new WaitForSeconds(1f);

@@ -79,7 +79,7 @@ namespace Targets
 
         private void Update()
         {
-            targetPlayer = GameObject.FindWithTag("Player");
+            
         }
 
         public virtual void SetNewRandomValues()
@@ -140,7 +140,7 @@ namespace Targets
                     _spawnPoint.y = MathF.Abs(_spawnPoint.y);
                     break;
             }
-            targetSpeed = Random.Range(0.5f, 2.0f); 
+            targetSpeed = Random.Range(0.5f, 1.5f); 
         }
         public virtual void UpdateLocation()
         {
@@ -250,6 +250,8 @@ namespace Targets
                 }
                 else
                 {
+                    print($"being hit by a bullet from player {other.gameObject.GetComponent<Bullet>().playerRef}." +
+                          $"can be damaged by bullets from player {_canTakeBulletsFrom}");
                     // Check if bullet was shot by the player that can hit this target and deactivate target if it can 
                     targetActive = !other.gameObject.GetComponent<Bullet>().playerRef.Equals(_canTakeBulletsFrom);
                 }    

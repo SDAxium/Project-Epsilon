@@ -1,5 +1,6 @@
 using System;
 using Controllers;
+using Photon.Pun;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -236,27 +237,25 @@ namespace Targets
             _rotationCenterZ = rotationCenter.z;
         }
         
-        public virtual void OnCollisionEnter(Collision other)
+        public void OnCollisionEnter(Collision other)
         {
-            print(_canTakeBulletsFrom);
-            if (!other.gameObject.CompareTag("Bullet"))
+            
+            if (!other.gameObject.CompareTag("Bullet")) return;
+            if (_canTakeBulletsFrom == 0)
             {
+                targetActive = false;
             }
             else
             {
-                if (_canTakeBulletsFrom == 0)
-                {
-                    targetActive = false;
-                }
-                else
-                {
-                    print($"being hit by a bullet from player {other.gameObject.GetComponent<Bullet>().playerRef}." +
-                          $"can be damaged by bullets from player {_canTakeBulletsFrom}");
-                    // Check if bullet was shot by the player that can hit this target and deactivate target if it can 
-                    targetActive = !other.gameObject.GetComponent<Bullet>().playerRef.Equals(_canTakeBulletsFrom);
-                }    
+                GetComponent<PhotonView>().RPC(nameof(UpdateTargetActivity),RpcTarget.All,other);
             }
-            
+        }
+        
+        [PunRPC] 
+        void UpdateTargetActivity(Collision other)
+        {
+            // Check if bullet was shot by the player that can hit this target and deactivate target if it can 
+            targetActive = !other.gameObject.GetComponent<Bullet>().playerRef.Equals(_canTakeBulletsFrom);
         }
     }
 }

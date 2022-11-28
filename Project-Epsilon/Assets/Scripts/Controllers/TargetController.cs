@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using Targets;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -46,6 +48,7 @@ namespace Controllers
         ///     Spawns a target a every three seconds as long as there are less than 20 active targets in the scene. 
         /// </summary>
         /// <returns></returns>
+        [PunRPC]
         private IEnumerator TargetSpawning()
         {
             if (!simulationOn)
@@ -65,7 +68,7 @@ namespace Controllers
                 }
                 else
                 {
-                    bulletTarget = Instantiate(targetPrefab);
+                    bulletTarget = PhotonNetwork.Instantiate(targetPrefab.name,Vector3.zero, Quaternion.identity);
                 }
             
                 HitTarget bulletTargetHitScript = bulletTarget.GetComponent<HitTarget>();
@@ -98,7 +101,7 @@ namespace Controllers
             yield return new WaitForSeconds(1f);
             yield return TargetSpawning();
         }
-    
+        
         /// <summary>
         /// Takes a target and removes it from the active targets list. Removed targets are also deactivated 
         /// </summary>

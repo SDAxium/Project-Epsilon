@@ -111,10 +111,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d506e1d910dd404384cabeaea5792c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultColor: {r: 0.5182258, g: 0, b: 0.8113208, a: 1}
+  defaultColor2: {r: 0.28553787, g: 0, b: 0.4433962, a: 1}
+  playerOneColor: {r: 0.077250026, g: 0, b: 0.8679245, a: 1}
+  playerOneColor2: {r: 0.04534241, g: 0, b: 0.509434, a: 1}
+  playerTwoColor: {r: 0.8207547, g: 0.090240054, b: 0, a: 1}
+  playerTwoColor2: {r: 0.3490566, g: 0.03837795, b: 0, a: 1}
   origin: {fileID: 0}
-  defaultMaterial: {fileID: 2100000, guid: 0ffe3a1fc98f1064d947e203145f65b8, type: 2}
-  p1Material: {fileID: 2100000, guid: 5d91dfad46556624bac1857d4d4b5091, type: 2}
-  p2Material: {fileID: 2100000, guid: 0dda113ba008f0140b2133f8ddb53a76, type: 2}
   targetPlayer: {fileID: 0}
   spawnSound: {fileID: 0}
   targetActive: 0

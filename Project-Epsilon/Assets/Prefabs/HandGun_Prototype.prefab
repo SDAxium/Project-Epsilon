@@ -369,7 +369,7 @@ GameObject:
   - component: {fileID: 7436714474832173685}
   m_Layer: 9
   m_Name: HandGun_Prototype
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -556,6 +556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1410baae81f084d8605edeeba0cf7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toggleToTeleport: []
   chamberEmpty: {fileID: 8300000, guid: dad73de9f72e12d49846c1d4c8445051, type: 3}
   gunReload: {fileID: 8300000, guid: d8d24e269d559ac478a444ba4ea10e78, type: 3}
   maxBullets: 30
@@ -563,6 +564,8 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 7436714475329255039}
   audioSource: {fileID: 7436714474832173685}
   gunshotClip: {fileID: 8300000, guid: 52470ae918eb7a1469fd0bf745fa2ee2, type: 3}
+  teleportOn: 0
+  currentPlayerReference: 0
 --- !u!82 &7436714474832173685
 AudioSource:
   m_ObjectHideFlags: 0

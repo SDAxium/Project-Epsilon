@@ -19,7 +19,7 @@ namespace Targets
             SetNewRandomValues();
         }
 
-        public override void SetNewRandomValues()
+        public void SetNewRandomValues()
         {
             _distanceFromPlayer = Random.Range(3, 11);
             /*

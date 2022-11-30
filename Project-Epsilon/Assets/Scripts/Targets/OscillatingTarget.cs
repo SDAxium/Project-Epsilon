@@ -12,7 +12,7 @@ namespace Targets
         private float _rotationCenterZ;
         
         private int _oscillationCase;
-        public override void SetNewRandomValues()
+        public void SetNewRandomValues()
         {
             Timer = Random.Range(0, 181);
             targetSpeed = Random.Range(1, 3);

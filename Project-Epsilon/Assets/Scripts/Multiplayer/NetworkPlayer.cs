@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using Photon.Pun;
 using Unity.XR.CoreUtils;
+using UnityEngine.InputSystem.XR;
+using XRController = UnityEngine.XR.Interaction.Toolkit.XRController;
 
 namespace Multiplayer
 {
@@ -21,7 +23,12 @@ namespace Multiplayer
             {
                 GetComponent<AudioListener>().enabled = false;
                 GetComponent<XROrigin>().enabled = false;
-                transform.GetChild(0).GetChild(0).GetComponent<Camera>().enabled = false;
+                transform.GetChild(0).GetChild(0).GetComponent<Camera>().enabled = false; // Camera
+                transform.GetChild(0).GetChild(0).GetComponent<TrackedPoseDriver>().enabled = false; // Head Tracking
+                transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<ActionBasedController>().enabled = false; // Right Hand Direct interactor
+                transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<ActionBasedController>().enabled = false; // Right Hand UI interactor
+                transform.GetChild(0).GetChild(2).GetChild(0).GetComponent<ActionBasedController>().enabled = false; // Left Hand Direct interactor
+                transform.GetChild(0).GetChild(2).GetChild(2).GetComponent<ActionBasedController>().enabled = false; // Left Hand UI interactor
             }
         }
 

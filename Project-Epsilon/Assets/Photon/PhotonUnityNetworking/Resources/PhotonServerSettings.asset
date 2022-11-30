@@ -42,6 +42,9 @@ MonoBehaviour:
   - TargetSpawning
   - OnCollisionEnter
   - UpdateTargetActivity
+  - SetNewRandomValues
+  - UpdateColors
+  - DeactivateTarget
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

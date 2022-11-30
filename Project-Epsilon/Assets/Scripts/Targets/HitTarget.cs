@@ -62,10 +62,12 @@ namespace Targets
         private int _oscillationCase;
 
         private MeshRenderer _meshRenderer;
+        private PhotonView _photonView;
 
         // OSCILLATING TARGET VALUES
         private void Awake()
         {
+            _photonView = GetComponent<PhotonView>();
             _meshRenderer = gameObject.transform.GetChild(0).GetComponent<MeshRenderer>();
             targetActive = true;
             targetPlayer = GameObject.FindWithTag("Player");
@@ -74,7 +76,7 @@ namespace Targets
 
         private void Start()
         {
-            print(gameObject.name);
+            _photonView = GetComponent<PhotonView>();
             // SetNewRandomValues();
         }
 
@@ -83,9 +85,9 @@ namespace Targets
             
         }
 
-        public virtual void SetNewRandomValues()
+        [PunRPC]
+        void UpdateColors()
         {
-            _canTakeBulletsFrom = Random.Range(0, 3);
             var materials = _meshRenderer.materials;
             switch (_canTakeBulletsFrom)
             {
@@ -110,7 +112,12 @@ namespace Targets
                     materials[5].color = defaultColor2;
                     break;
             }
-            
+        }
+        
+        public void SetNewRandomValues()
+        { 
+            _canTakeBulletsFrom = Random.Range(0, 3);
+            _photonView.RPC(nameof(UpdateColors),RpcTarget.All);
             switch (_targetMode)
             {
                 case Stationary:
@@ -141,7 +148,7 @@ namespace Targets
                     _spawnPoint.y = MathF.Abs(_spawnPoint.y);
                     break;
             }
-            targetSpeed = Random.Range(0.5f, 1.5f); 
+            targetSpeed = Random.Range(0.5f, 1.3f); 
         }
         public virtual void UpdateLocation()
         {
@@ -241,18 +248,18 @@ namespace Targets
         {
             
             if (!other.gameObject.CompareTag("Bullet")) return;
-            if (_canTakeBulletsFrom == 0)
+            if (_canTakeBulletsFrom == 0 || other.gameObject.GetComponent<Bullet>().playerRef == _canTakeBulletsFrom)
             {
                 targetActive = false;
             }
             else
             {
-                GetComponent<PhotonView>().RPC(nameof(UpdateTargetActivity),RpcTarget.All,other);
+                _photonView.RPC(nameof(DeactivateTarget),RpcTarget.All,other);
             }
         }
         
         [PunRPC] 
-        void UpdateTargetActivity(Collision other)
+        void DeactivateTarget(Collision other)
         {
             // Check if bullet was shot by the player that can hit this target and deactivate target if it can 
             targetActive = !other.gameObject.GetComponent<Bullet>().playerRef.Equals(_canTakeBulletsFrom);

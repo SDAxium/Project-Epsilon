@@ -9,7 +9,7 @@ namespace Multiplayer
     {
         void Start()
         {
-            ConnectToServer();
+            //ConnectToServer();
         }
 
         public void ConnectToServer()

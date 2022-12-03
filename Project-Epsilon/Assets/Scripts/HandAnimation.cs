@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,11 +24,25 @@ public class HandAnimation : MonoBehaviour
 
     private void Awake() => _animator = GetComponent<Animator>();
 
-    private void Gripping(InputAction.CallbackContext obj) => _animator.SetFloat(Grip, obj.ReadValue<float>());
+    private void Start() => _animator = GetComponent<Animator>();
 
-    private void GripRelease(InputAction.CallbackContext obj) => _animator.SetFloat(Grip, 0f);
+    private void Gripping(InputAction.CallbackContext obj)
+    {
+        if(_animator) _animator.SetFloat(Grip, obj.ReadValue<float>());
+    }
 
-    private void Pinching(InputAction.CallbackContext obj) => _animator.SetFloat(Trigger, obj.ReadValue<float>());
+    private void GripRelease(InputAction.CallbackContext obj)
+    {
+        if(_animator) _animator.SetFloat(Grip, 0f);
+    }
 
-    private void PinchRelease(InputAction.CallbackContext obj) => _animator.SetFloat(Trigger, 0f);
+    private void Pinching(InputAction.CallbackContext obj)
+    {
+        if(_animator) _animator.SetFloat(Trigger, obj.ReadValue<float>());    
+    }
+
+    private void PinchRelease(InputAction.CallbackContext obj)
+    {
+        if(_animator) _animator.SetFloat(Trigger, 0f);
+    }
 }

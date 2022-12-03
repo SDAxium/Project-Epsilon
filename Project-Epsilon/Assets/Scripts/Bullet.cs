@@ -55,8 +55,10 @@ public class Bullet : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("TeleportArea"))
             {
+                isTeleportEnabled = false;
+                print(isTeleportEnabled);
                 gunOrigin.GetCurrentPlayer().transform.position = transform.position;
-                active = false;
+                active = false; 
             }
         }
 

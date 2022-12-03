@@ -30,6 +30,8 @@ public class Gun : MonoBehaviour
 
     public bool teleportOn;
     public int currentPlayerReference;
+
+    public ParticleSystem ps;
     protected virtual void Awake()
     {
         foreach (InputActionReference reference in toggleToTeleport)
@@ -107,7 +109,15 @@ public class Gun : MonoBehaviour
         bullet.transform.position = position;
         bullet.transform.rotation = bulletSpawnPoint.rotation;
         
+        //print($"Last interactor is: {GetComponent<XRGrabInteractable>().GetOldestInteractorSelecting().transform.gameObject.name}");
+        GetComponent<XRGrabInteractable>().GetOldestInteractorSelecting().transform.gameObject.GetComponent<ActionBasedController>().SendHapticImpulse(0.7f, .1f);
         AudioSource.PlayClipAtPoint(gunshotClip,position);
+        var em = ps.emission;
+        var dur = ps.main.duration;
+        em.enabled = true;
+        
+        ps.Play();
+        StartCoroutine(DisableEmitter(dur));
 
         _currentBullets--;
         _bulletCountText.text = _currentBullets.ToString();
@@ -115,12 +125,20 @@ public class Gun : MonoBehaviour
         if (teleportOn)
         {
             bullet.GetComponent<Bullet>().isTeleportEnabled = teleportOn;
-            print("Turning teleport off");
             teleportOn = false;
-            print($"teleporting is {teleportOn}");
         }
+        
     }
 
+    private IEnumerator DisableEmitter(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        ps.Stop();
+        var em = ps.emission;
+        em.enabled = false;
+        
+
+    }
     public void Reload()
     {
         _currentBullets = maxBullets;

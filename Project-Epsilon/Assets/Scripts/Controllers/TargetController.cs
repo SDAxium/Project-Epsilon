@@ -21,6 +21,11 @@ namespace Controllers
         public int maxTargets = 20;
 
         public bool simulationOn = false;
+
+        /// <summary>
+        /// Time between target spawns
+        /// </summary>
+        public float waitTime;
         // Start is called before the first frame update
         void Start()
         {
@@ -98,7 +103,7 @@ namespace Controllers
                 bulletTargetHitScript.targetActive = true;
                 bulletTarget.SetActive(true);
             }
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(waitTime);
             yield return TargetSpawning();
         }
         

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Controllers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -70,6 +71,7 @@ public class Timer : MonoBehaviour
         if (time <= 0)
         {
             stopTimer = true;
+            transform.GetChild(2).GetComponent<TargetController>().EndSimulation();
         }
 
         if (!stopTimer)

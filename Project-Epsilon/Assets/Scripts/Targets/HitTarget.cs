@@ -2,6 +2,7 @@ using System;
 using Controllers;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 namespace Targets
@@ -115,8 +116,8 @@ namespace Targets
         }
         
         public void SetNewRandomValues()
-        { 
-            _canTakeBulletsFrom = Random.Range(0, 3);
+        {
+            _canTakeBulletsFrom = Random.Range(0, SceneManager.GetActiveScene().buildIndex == 0 ? 2 : 3);
             _photonView.RPC(nameof(UpdateColors),RpcTarget.All);
             switch (_targetMode)
             {

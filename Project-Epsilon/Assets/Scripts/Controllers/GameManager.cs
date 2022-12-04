@@ -29,12 +29,13 @@ namespace Controllers
         void Start()
         {
             PhotonNetwork.OfflineMode = true;
+            if (SceneManager.GetActiveScene().buildIndex == 0)
+            {
+                transform.GetChild(2).GetComponent<TargetController>().StartSimulation();
+            }
             if (GameObject.FindWithTag("Player")) return;
             
             Instantiate(player,player1Spawn.position,Quaternion.identity);
-            //GetComponent<LocomotionSystem>().xrOrigin = player.GetComponent<XROrigin>();
-
-            //print(GameObject.Find("robo_orb").GetComponent<MeshRenderer>().materials[4].color.ToString());
         }
 
         void Update()

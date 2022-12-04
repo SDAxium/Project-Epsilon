@@ -1,3 +1,5 @@
+using Photon.Pun;
+using Unity.Mathematics;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,8 +10,9 @@ namespace Controllers
     public class GameManager : MonoBehaviour
     {
         //Instance of the game manager
-        public GameManager instance; 
-    
+        public GameManager instance;
+
+        public Transform player1Spawn;
         // Game Object that holds the reference to the player 
         public GameObject player;
 
@@ -20,24 +23,16 @@ namespace Controllers
         private AsyncOperation _scene;
         private void Awake()
         {
-            /*if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }*/
+            
         }
 
         void Start()
         {
-            // if(!GameObject.FindWithTag("Player"))
-            // {
-            //     player = Instantiate(player);
-            //     instance.GetComponent<LocomotionSystem>().xrOrigin = player.GetComponent<XROrigin>();
-            // }
+            PhotonNetwork.OfflineMode = true;
+            if (GameObject.FindWithTag("Player")) return;
+            
+            Instantiate(player,player1Spawn.position,Quaternion.identity);
+            //GetComponent<LocomotionSystem>().xrOrigin = player.GetComponent<XROrigin>();
 
             //print(GameObject.Find("robo_orb").GetComponent<MeshRenderer>().materials[4].color.ToString());
         }

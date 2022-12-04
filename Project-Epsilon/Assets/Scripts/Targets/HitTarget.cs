@@ -248,21 +248,20 @@ namespace Targets
         {
             
             if (!other.gameObject.CompareTag("Bullet")) return;
-            if (_canTakeBulletsFrom == 0 || other.gameObject.GetComponent<Bullet>().playerRef == _canTakeBulletsFrom)
-            {
-                targetActive = false;
-            }
-            else
-            {
-                _photonView.RPC(nameof(DeactivateTarget),RpcTarget.All,other);
-            }
+            if (other.gameObject.GetComponent<Bullet>().playerRef != _canTakeBulletsFrom && _canTakeBulletsFrom != 0) return;
+            _photonView.RPC(nameof(DeactivateTarget),RpcTarget.All);
+            
+            // targetActive = false;
+            // gameObject.SetActive(false);
+            
         }
         
         [PunRPC] 
-        void DeactivateTarget(Collision other)
+        void DeactivateTarget()
         {
             // Check if bullet was shot by the player that can hit this target and deactivate target if it can 
-            targetActive = !other.gameObject.GetComponent<Bullet>().playerRef.Equals(_canTakeBulletsFrom);
+            targetActive = false; 
+            gameObject.SetActive(false);
         }
     }
 }

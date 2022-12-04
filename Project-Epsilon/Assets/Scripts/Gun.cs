@@ -54,7 +54,7 @@ public class Gun : MonoBehaviour
         _bc = bulletController.GetComponent<BulletController>();
         
         GetComponent<XRGrabInteractable>().selectEntered.AddListener(UpdateOwner);
-        Reload();
+        // Reload();
     }
     
     /// <summary>

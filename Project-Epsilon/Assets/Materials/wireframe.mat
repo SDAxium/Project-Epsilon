@@ -42,10 +42,10 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _horizontal_move: 1
-    - _vertical_move: 1
+    - _vertical_move: 0
     m_Colors:
     - _Line_Color: {r: 0.09127903, g: 0, b: 1, a: 1}
-    - _Tiling: {r: 6, g: 6, b: 0, a: 0}
+    - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &5489671484062178592
 MonoBehaviour:

@@ -48,7 +48,7 @@ namespace Controllers
                 target.GetComponent<HitTarget>().UpdateLocation();
             }
         }
-    
+
         /// <summary>
         ///     Spawns a target a every three seconds as long as there are less than 20 active targets in the scene. 
         /// </summary>
@@ -76,7 +76,7 @@ namespace Controllers
                     bulletTarget = PhotonNetwork.Instantiate(targetPrefab.name,Vector3.zero, Quaternion.identity);
                 }
             
-                HitTarget bulletTargetHitScript = bulletTarget.GetComponent<HitTarget>();
+                HitTarget bulletTargetHitScript = bulletTarget.GetComponent<HitTarget>(); // The hit target script of the target spawned
             
                 switch (_spawningCase)
                 {
@@ -123,7 +123,7 @@ namespace Controllers
         /// </summary>
         public void StartSimulation()
         {
-            _spawningCase = 3;
+            _spawningCase = 3; //0- Stationary only, 1- Strafing Only, 2- Oscillating only, 3- All types
             simulationOn = true;
             StartCoroutine(TargetSpawning());
         }

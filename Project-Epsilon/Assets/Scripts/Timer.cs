@@ -15,10 +15,12 @@ public class Timer : MonoBehaviour
     public float time;
 
     private bool stopTimer = true;
-    
+    private TargetController _targetController;
+
     // Start is called before the first frame update
     void Start()
     {
+        _targetController = transform.GetChild(2).GetComponent<TargetController>();
         Init();
     }
 
@@ -68,19 +70,20 @@ public class Timer : MonoBehaviour
             timerText.color = Color.red;
         }
         
+        if(stopTimer) return;
+        
         if (time <= 0)
         {
             stopTimer = true;
-            transform.GetChild(2).GetComponent<TargetController>().EndSimulation();
+            time = 0;
+            _targetController.EndSimulation();
+            return;
         }
-
-        if (!stopTimer)
+        
+        timerText.text = textTime;
+        foreach (Slider slider in sliders)
         {
-            timerText.text = textTime;
-            foreach (Slider slider in sliders)
-            {
-                slider.value = time;   
-            }
+            slider.value = time;   
         }
     }
 }

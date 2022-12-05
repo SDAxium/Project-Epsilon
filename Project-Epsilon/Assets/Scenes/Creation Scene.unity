@@ -4921,6 +4921,7 @@ MonoBehaviour:
     type: 3}
   maxTargets: 20
   simulationOn: 0
+  waitTime: 0
 --- !u!114 &1326479006
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -55,10 +55,17 @@ public class Bullet : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("TeleportArea"))
             {
-                isTeleportEnabled = false;
-                print(isTeleportEnabled);
-                gunOrigin.GetCurrentPlayer().transform.position = transform.position;
-                active = false; 
+                isTeleportEnabled = false;// Disable Teleporting
+                gunOrigin.GetCurrentPlayer().transform.position = transform.position; // Move the player to the spot that the bullet hit
+                active = false; // Disable the bullet
+                return;
+            }
+            else if (collision.gameObject.CompareTag("Teleport Anchor"))
+            {
+                isTeleportEnabled = false; // Disable Teleporting
+                gunOrigin.GetCurrentPlayer().transform.position = collision.gameObject.transform.GetChild(0).position; // Move the player to the anchor of the area hit
+                active = false; // Disable the bullet
+                return;
             }
         }
 
@@ -67,6 +74,5 @@ public class Bullet : MonoBehaviour
             print($"Colliding with {collision.gameObject.name}");
             active = false;
         }
-        
     }
 }

@@ -9,6 +9,7 @@ namespace Multiplayer
 {
     public class NetworkPlayer : MonoBehaviour
     {
+        public int currentScore;
         public int reference;
 
         private PhotonView _photonView;
@@ -18,8 +19,8 @@ namespace Multiplayer
             _photonView = GetComponent<PhotonView>();
             if (PhotonNetwork.IsConnectedAndReady)
             {
-                reference = PhotonNetwork.CurrentRoom.PlayerCount == 1 ? 1 : 2;
-                gameObject.name = PhotonNetwork.CurrentRoom.PlayerCount == 1 ? "Player One" : "Player Two";
+                reference = PhotonNetwork.CurrentRoom.Players[0].IsLocal ? 1 : 2;
+                gameObject.name = PhotonNetwork.CurrentRoom.Players[0].IsLocal ? "Player One" : "Player Two";
             }
 
             if (!_photonView.IsMine)

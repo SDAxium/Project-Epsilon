@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - TeleportArea
   - Gun
+  - Teleport Anchor
   layers:
   - Default
   - TransparentFX

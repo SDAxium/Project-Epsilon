@@ -73,7 +73,14 @@ namespace Controllers
                 }
                 else
                 {
-                    bulletTarget = PhotonNetwork.Instantiate(targetPrefab.name,Vector3.zero, Quaternion.identity);
+                    if (PhotonNetwork.IsConnected) // If connected to network, instantiate using photon
+                    {
+                        bulletTarget = PhotonNetwork.Instantiate(targetPrefab.name,Vector3.zero, Quaternion.identity);   
+                    }
+                    else // Otherwise, instantiate using unity
+                    {
+                        bulletTarget = Instantiate(targetPrefab,Vector3.zero, Quaternion.identity);
+                    }
                 }
             
                 HitTarget bulletTargetHitScript = bulletTarget.GetComponent<HitTarget>(); // The hit target script of the target spawned

@@ -1,4 +1,5 @@
 using Photon.Pun;
+using TMPro;
 using Unity.Mathematics;
 using Unity.XR.CoreUtils;
 using UnityEngine;
@@ -7,10 +8,10 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Controllers
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviourPunCallbacks
     {
         //Instance of the game manager
-        public GameManager instance;
+        public static GameManager instance;
 
         public Transform player1Spawn;
         // Game Object that holds the reference to the player 
@@ -21,9 +22,13 @@ namespace Controllers
     
         // Holds the next scene to be loaded in the background
         private AsyncOperation _scene;
+
+        public TextMeshProUGUI playerOneScoreText, playerTwoScoreText;
+
+        public static int p1Score, p2Score;
         private void Awake()
         {
-            
+            instance = this;
         }
 
         void Start()
@@ -35,7 +40,7 @@ namespace Controllers
             }
             if (GameObject.FindWithTag("Player")) return;
             
-            Instantiate(player,player1Spawn.position,Quaternion.identity);
+            // Instantiate(player,player1Spawn.position,Quaternion.identity);
         }
 
         void Update()
@@ -83,6 +88,12 @@ namespace Controllers
         public void Exit()
         {
             Application.Quit();
+        }
+
+        void SetScoreText()
+        {
+            playerOneScoreText.text = p1Score.ToString();
+            playerTwoScoreText.text = p2Score.ToString();
         }
     }
 }

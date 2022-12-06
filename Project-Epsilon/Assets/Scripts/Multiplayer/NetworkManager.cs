@@ -2,6 +2,7 @@ using System;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Multiplayer
 {
@@ -9,7 +10,10 @@ namespace Multiplayer
     {
         void Start()
         {
-            //ConnectToServer();
+            if (SceneManager.GetActiveScene().name == "Creation Scene")
+            {
+                ConnectToServer();    
+            }
         }
 
         public void ConnectToServer()

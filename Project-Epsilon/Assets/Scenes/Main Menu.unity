@@ -444,10 +444,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa590563763ae74d8f0bb663d882fcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instance: {fileID: 379479166}
   player1Spawn: {fileID: 1217251805}
   player: {fileID: 6381682198320582528, guid: 3a5002087ebbf15488a3db14e787da95, type: 3}
   sceneTravel: 0
+  playerOneScoreText: {fileID: 0}
+  playerTwoScoreText: {fileID: 0}
 --- !u!1001 &509841606
 PrefabInstance:
   m_ObjectHideFlags: 0

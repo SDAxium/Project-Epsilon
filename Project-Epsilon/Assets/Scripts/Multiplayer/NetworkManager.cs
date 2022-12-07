@@ -10,10 +10,7 @@ namespace Multiplayer
     {
         void Start()
         {
-            if (SceneManager.GetActiveScene().name == "Creation Scene")
-            {
-                ConnectToServer();    
-            }
+            
         }
 
         public void ConnectToServer()

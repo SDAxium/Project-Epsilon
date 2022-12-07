@@ -23,6 +23,7 @@ namespace Multiplayer
         public override void OnLeftRoom()
         {
             base.OnLeftRoom();
+            print("DESTROYING");
             PhotonNetwork.Destroy(spawnedPlayerPrefab);
         }
     }

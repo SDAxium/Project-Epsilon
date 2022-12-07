@@ -15,7 +15,7 @@ namespace Multiplayer
         public override void OnJoinedRoom()
         {
             base.OnJoinedRoom();
-            playerSpawn = PhotonNetwork.CurrentRoom.PlayerCount == 1 ? player1Spawn.position : player2Spawn.position;
+            playerSpawn = PhotonNetwork.PlayerList[0].IsLocal ? player1Spawn.position : player2Spawn.position;
             
             spawnedPlayerPrefab = PhotonNetwork.Instantiate("Player",playerSpawn,Quaternion.identity);
         }
@@ -23,8 +23,11 @@ namespace Multiplayer
         public override void OnLeftRoom()
         {
             base.OnLeftRoom();
-            print("DESTROYING");
-            PhotonNetwork.Destroy(spawnedPlayerPrefab);
+            if (spawnedPlayerPrefab != null)
+            {
+                print("DESTROYING");
+                PhotonNetwork.Destroy(spawnedPlayerPrefab);
+            }
         }
     }
 }

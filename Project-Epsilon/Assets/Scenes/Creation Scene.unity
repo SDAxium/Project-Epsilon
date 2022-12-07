@@ -1756,6 +1756,7 @@ Transform:
   - {fileID: 1552339363}
   - {fileID: 968711153}
   - {fileID: 1326479004}
+  - {fileID: 2091248391}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1785,7 +1786,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1Spawn: {fileID: 8853916362294272445}
   player: {fileID: 6381682198320582528, guid: 3a5002087ebbf15488a3db14e787da95, type: 3}
-  sceneTravel: 0
   playerOneScoreText: {fileID: 0}
   playerTwoScoreText: {fileID: 0}
 --- !u!114 &379479167
@@ -2673,10 +2673,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 968711154}
-        m_TargetAssemblyTypeName: Multiplayer.NetworkManager, Assembly-CSharp
-        m_MethodName: ConnectToServer
-        m_Mode: 1
+      - m_Target: {fileID: 2091248392}
+        m_TargetAssemblyTypeName: Controllers.SceneTransitionManager, Assembly-CSharp
+        m_MethodName: GoToScene
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4200,8 +4200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e68960c2ecd8bd34d8683171a6a91d3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnedPlayerPrefab: {fileID: 6381682198320582528, guid: 3a5002087ebbf15488a3db14e787da95,
-    type: 3}
+  spawnedPlayerPrefab: {fileID: 0}
   player1Spawn: {fileID: 8853916362294272445}
   player2Spawn: {fileID: 7341441205605617767}
 --- !u!1 &987435323
@@ -5517,7 +5516,7 @@ MonoBehaviour:
     type: 3}
   maxTargets: 20
   simulationOn: 0
-  waitTime: 0
+  waitTime: 1
 --- !u!114 &1326479006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9341,6 +9340,51 @@ Transform:
   m_Father: {fileID: 1391167589}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2091248390
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2091248391}
+  - component: {fileID: 2091248392}
+  m_Layer: 0
+  m_Name: SceneTransitionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2091248391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091248390}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 379479161}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2091248392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091248390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76f6ce9c582245a4bb6b41e9761743ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeScreen: {fileID: 0}
 --- !u!1 &2099130997
 GameObject:
   m_ObjectHideFlags: 0

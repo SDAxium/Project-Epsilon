@@ -39,7 +39,7 @@ namespace Targets
         private Vector3 _spawnPoint;
         public AudioClip spawnSound;
 
-        protected float Timer;
+        private float Timer;
         public bool targetActive;
         public float targetSpeed;
         // GLOBAL TARGET VALUES
@@ -71,7 +71,49 @@ namespace Targets
             _photonView = GetComponent<PhotonView>();
             _meshRenderer = gameObject.transform.GetChild(0).GetComponent<MeshRenderer>();
             targetActive = true;
-            targetPlayer = GameObject.FindWithTag("Player");
+            if (PhotonNetwork.IsConnectedAndReady)
+            {
+                int index = 0;
+                if (_canTakeBulletsFrom == 0)
+                {
+                    
+                    if (PhotonNetwork.PlayerList.Length == 1)
+                    {
+                        index = 0;
+                    }
+                    else
+                    {
+                        index = Random.Range(0, 2) > 0 ? 0 : 1;
+                    }
+                    
+                }
+                else if (_canTakeBulletsFrom == 1)
+                {
+                    index = 0;
+                }
+                else
+                {
+                    index = 1;
+                }
+
+                targetPlayer = PhotonNetwork.PlayerList[index].TagObject as GameObject;
+                
+                if (targetPlayer == null)
+                {
+                    print("Whoops, still null");
+                    if (_canTakeBulletsFrom == 1)
+                    {
+                        targetPlayer = GameObject.Find("Player One");
+                    }
+                    else if (_canTakeBulletsFrom == 2)
+                    {
+                        targetPlayer = GameObject.Find("Player Two");
+                    }
+                }
+                //targetPlayer = PhotonNetwork.LocalPlayer.TagObject as GameObject;
+                // if (targetPlayer != null) print(targetPlayer.name);
+                print(targetPlayer != null ? targetPlayer.name:"WHAT");
+            }
             origin = GameObject.Find("origin");
         }
 
@@ -117,7 +159,8 @@ namespace Targets
         
         public void SetNewRandomValues()
         {
-            _canTakeBulletsFrom = Random.Range(0, SceneManager.GetActiveScene().buildIndex == 0 ? 2 : 3);
+            //_canTakeBulletsFrom = Random.Range(0, SceneManager.GetActiveScene().buildIndex == 0 ? 2 : 3);
+            _canTakeBulletsFrom = SceneManager.GetActiveScene().buildIndex == 0 ? 1 : Random.Range(0, 3);
             _photonView.RPC(nameof(UpdateColors),RpcTarget.All);
             switch (_targetMode)
             {

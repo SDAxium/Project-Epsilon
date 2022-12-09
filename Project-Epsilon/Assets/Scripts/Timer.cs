@@ -40,6 +40,7 @@ public class Timer : MonoBehaviour
     public void StartTimer()
     {
         stopTimer = false;
+        GameObject.Find("Canvas").SetActive(false);
     }
 
     // Update is called once per frame
@@ -74,6 +75,7 @@ public class Timer : MonoBehaviour
         
         if (time <= 0)
         {
+            GameObject.Find("Canvas").SetActive(true);
             stopTimer = true;
             time = 0;
             _targetController.EndSimulation();

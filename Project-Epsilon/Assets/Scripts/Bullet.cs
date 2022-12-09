@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    /// <summary>
+    /// The gun that fired this bullet
+    /// </summary>
     public Gun gunOrigin; 
     
     private const float Speed = 80;

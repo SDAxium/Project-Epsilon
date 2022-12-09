@@ -3,6 +3,7 @@ using Controllers;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using NetworkPlayer = Multiplayer.NetworkPlayer;
 using Random = UnityEngine.Random;
 
 namespace Targets
@@ -17,6 +18,7 @@ namespace Targets
         public Color playerTwoColor2 = new(132,14,0);
         
         public GameObject origin;
+        // public PhotonView photonView;
 
         // Multiplayer Thing
         /// <summary>
@@ -24,6 +26,8 @@ namespace Targets
         /// </summary>
         private int _canTakeBulletsFrom = 0;
 
+        public GameObject collidingBullet = null;
+        
         private Material _targetBaseMaterial, _targetBase2Material, _targetEyeMaterial;
 
         //Base Color and Eye Color are the same
@@ -63,12 +67,12 @@ namespace Targets
         private int _oscillationCase;
 
         private MeshRenderer _meshRenderer;
-        private PhotonView _photonView;
+        public PhotonView photonView;
 
         // OSCILLATING TARGET VALUES
         private void Awake()
         {
-            _photonView = GetComponent<PhotonView>();
+            photonView = GetComponent<PhotonView>();
             _meshRenderer = gameObject.transform.GetChild(0).GetComponent<MeshRenderer>();
             targetActive = true;
             if (PhotonNetwork.IsConnectedAndReady)
@@ -100,7 +104,6 @@ namespace Targets
                 
                 if (targetPlayer == null)
                 {
-                    print("Whoops, still null");
                     if (_canTakeBulletsFrom == 1)
                     {
                         targetPlayer = GameObject.Find("Player One");
@@ -110,16 +113,13 @@ namespace Targets
                         targetPlayer = GameObject.Find("Player Two");
                     }
                 }
-                //targetPlayer = PhotonNetwork.LocalPlayer.TagObject as GameObject;
-                // if (targetPlayer != null) print(targetPlayer.name);
-                print(targetPlayer != null ? targetPlayer.name:"WHAT");
             }
             origin = GameObject.Find("origin");
         }
 
         private void Start()
         {
-            _photonView = GetComponent<PhotonView>();
+            photonView = GetComponent<PhotonView>();
             // SetNewRandomValues();
         }
 
@@ -157,11 +157,12 @@ namespace Targets
             }
         }
         
+        [PunRPC]
         public void SetNewRandomValues()
         {
             //_canTakeBulletsFrom = Random.Range(0, SceneManager.GetActiveScene().buildIndex == 0 ? 2 : 3);
             _canTakeBulletsFrom = SceneManager.GetActiveScene().buildIndex == 0 ? 1 : Random.Range(0, 3);
-            _photonView.RPC(nameof(UpdateColors),RpcTarget.All);
+            photonView.RPC(nameof(UpdateColors),RpcTarget.All);
             switch (_targetMode)
             {
                 case Stationary:
@@ -176,7 +177,6 @@ namespace Targets
             
                     // Cases: X,Y,Z,XY,XZ,YZ
                     _strafeCase = Random.Range(1, 7);
-
                     _strafeDistance = Random.Range(2, 6);
                     break;
                 case Oscillating:
@@ -194,7 +194,41 @@ namespace Targets
             }
             targetSpeed = Random.Range(0.5f, 1.3f); 
         }
-        public virtual void UpdateLocation()
+
+        [PunRPC]
+        public void SetStationaryValues(int canTakeBulletsFrom,int distance,int spawnPointX, int spawnPointY,int spawnPointZ)
+        {
+            _canTakeBulletsFrom = canTakeBulletsFrom;
+            _distanceFromPlayer = distance;
+            _spawnPoint = new Vector3(spawnPointX,spawnPointY,spawnPointZ);
+            targetSpeed = Random.Range(0.5f, 1.3f); 
+        }
+
+        [PunRPC]
+        public void SetStrafingValues(int canTakeBulletsFrom,int distance,int spawnPointX, int spawnPointY,int spawnPointZ, int strafeCase, int strafeDistance,float speed)
+        {
+            _canTakeBulletsFrom = canTakeBulletsFrom;
+            _distanceFromPlayer = distance;
+            _spawnPoint = new Vector3(spawnPointX,spawnPointY,spawnPointZ);
+            _strafeCase = strafeCase;
+            _strafeDistance = strafeDistance;
+            targetSpeed = speed; 
+        }
+        
+        [PunRPC]
+        public void SetOscillatingValues(int canTakeBulletsFrom,float timer,float rotationHeight, float rotationWidth, int oscillationCase, int rotationCenterX,int rotationCenterY,int rotationCenterZ, float speed)
+        {
+            _canTakeBulletsFrom = canTakeBulletsFrom;
+            Timer = timer;
+            _rotationHeight = rotationHeight;
+            _rotationWidth = rotationWidth;
+            _oscillationCase = oscillationCase;
+            SetRotationCenter(new Vector3(rotationCenterX,rotationCenterY,rotationCenterZ));
+            targetSpeed = speed; 
+        }
+
+        [PunRPC]
+        public void UpdateLocation()
         {
             Timer += Time.deltaTime*targetSpeed;
             switch (_targetMode)
@@ -276,11 +310,13 @@ namespace Targets
             transform.Rotate(Vector3.right,90f);
         }
 
+        [PunRPC]
         public void SetTargetMode(int mode)
         {
             _targetMode = mode;
         }
         
+        [PunRPC]
         private void SetRotationCenter(Vector3 rotationCenter)
         {
             _rotationCenterX = rotationCenter.x;
@@ -292,18 +328,40 @@ namespace Targets
         {
             
             if (!other.gameObject.CompareTag("Bullet")) return;
+            collidingBullet = other.gameObject;
             if (other.gameObject.GetComponent<Bullet>().playerRef != _canTakeBulletsFrom && _canTakeBulletsFrom != 0) return;
-            _photonView.RPC(nameof(DeactivateTarget),RpcTarget.All);
             
-            // targetActive = false;
-            // gameObject.SetActive(false);
+            
+            if (SceneManager.GetActiveScene().buildIndex == 1 && 
+                (other.gameObject.GetComponent<Bullet>().playerRef == _canTakeBulletsFrom || _canTakeBulletsFrom == 0))
+            {
+                photonView.RPC(nameof(UpdateScore),RpcTarget.All);    
+            }
+
+            photonView.RPC(nameof(DeactivateTarget),RpcTarget.All);
+            
+        }
+
+        [PunRPC]
+        public void UpdateScore()
+        {
+            if (_canTakeBulletsFrom == 0)
+            {
+                collidingBullet.GetComponent<Bullet>().gunOrigin.GetCurrentPlayer().GetComponent<NetworkPlayer>().currentScore += 10;    
+            }
+            else
+            {
+                collidingBullet.GetComponent<Bullet>().gunOrigin.GetCurrentPlayer().GetComponent<NetworkPlayer>().currentScore += 20;
+            }
+            
+            collidingBullet.GetComponent<Bullet>().gunOrigin.GetCurrentPlayer().GetComponent<NetworkPlayer>().
+                gameObject.GetComponent<PhotonView>().RPC("UpdateScore",RpcTarget.All);
             
         }
         
         [PunRPC] 
         void DeactivateTarget()
         {
-            // Check if bullet was shot by the player that can hit this target and deactivate target if it can 
             targetActive = false; 
             gameObject.SetActive(false);
         }

@@ -13,10 +13,13 @@ namespace Multiplayer
         public int currentScore;
         public int reference;
 
+
+        private GameObject _gameManager;
         private PhotonView _photonView;
         // Start is called before the first frame update
         void Start()
         {
+            _gameManager = GameObject.Find("Game Manager");
             _photonView = GetComponent<PhotonView>();
             if (PhotonNetwork.IsConnectedAndReady)
             {
@@ -27,12 +30,14 @@ namespace Multiplayer
             
             if (_photonView.IsMine)
             {
-                GameObject.Find("Game Manager").transform.GetChild(3).GetComponent<SceneTransitionManager>().fadeScreen 
+                _gameManager.transform.GetChild(3).GetComponent<SceneTransitionManager>().fadeScreen 
                     = gameObject.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<FadeScreen>();
             }
             else
             {
                 GetComponent<AudioListener>().enabled = false;
+                // turn off everything that isnt mine
+                
             }
         }
 
@@ -40,6 +45,21 @@ namespace Multiplayer
         void Update()
         {
         
+        }
+        
+        [PunRPC]
+        public void UpdateScore()
+        {
+            if (reference == 1)
+            {
+                _gameManager.GetComponent<GameManager>().p1Score = currentScore;
+            }
+            if (reference == 2)
+            {
+                _gameManager.GetComponent<GameManager>().p2Score = currentScore;
+            }
+
+            _gameManager.GetComponent<GameManager>().SetScoreText();
         }
 
         public void OnPhotonInstantiate(PhotonMessageInfo info)

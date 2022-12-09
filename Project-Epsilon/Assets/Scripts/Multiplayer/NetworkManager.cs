@@ -10,10 +10,9 @@ namespace Multiplayer
     {
         void Start()
         {
+            
             bool playerExists = GameObject.FindWithTag("Player") != null;
-            print($"Player Exists: {playerExists}");
-            print($"Is connected to server: {PhotonNetwork.IsConnectedAndReady}");
-            print($"Current Room {PhotonNetwork.CurrentRoom.Name}");
+            
             if (!playerExists && SceneManager.GetActiveScene().buildIndex == 0)
             {
                 gameObject.GetComponent<NetworkPlayerSpawner>().OnJoinedRoom();
@@ -21,7 +20,6 @@ namespace Multiplayer
 
             if (SceneManager.GetActiveScene().buildIndex == 1)
             {
-                print("Ok we're gonna actually join now");
                 ConnectToServer();
             }
         }

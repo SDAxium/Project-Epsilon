@@ -19,7 +19,7 @@ namespace Controllers
         
 
         public TextMeshProUGUI playerOneScoreText, playerTwoScoreText;
-        public static int p1Score, p2Score;
+        public int p1Score, p2Score;
         private void Awake()
         {
             instance = this;
@@ -39,7 +39,7 @@ namespace Controllers
 
         void Update()
         {
-            
+
         }
 
         /// Close game
@@ -48,7 +48,7 @@ namespace Controllers
             Application.Quit();
         }
 
-        void SetScoreText()
+        public void SetScoreText()
         {
             playerOneScoreText.text = p1Score.ToString();
             playerTwoScoreText.text = p2Score.ToString();

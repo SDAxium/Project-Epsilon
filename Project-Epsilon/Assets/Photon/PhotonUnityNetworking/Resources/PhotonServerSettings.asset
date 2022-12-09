@@ -45,6 +45,12 @@ MonoBehaviour:
   - SetNewRandomValues
   - UpdateColors
   - DeactivateTarget
+  - UpdateScore
+  - UpdateLocation
+  - EndSimulation
+  - PutAwayTarget
+  - UpdateTargets
+  - SetStationaryValues
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

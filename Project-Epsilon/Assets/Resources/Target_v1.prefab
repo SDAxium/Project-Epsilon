@@ -143,10 +143,12 @@ MonoBehaviour:
   playerTwoColor: {r: 0.7735849, g: 0.085053846, b: 0, a: 1}
   playerTwoColor2: {r: 0.5283019, g: 0.058085553, b: 0, a: 1}
   origin: {fileID: 0}
+  collidingBullet: {fileID: 0}
   targetPlayer: {fileID: 0}
   spawnSound: {fileID: 0}
   targetActive: 0
   targetSpeed: 0
+  photonView: {fileID: 0}
 --- !u!135 &3085027298672378720
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -176,7 +178,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3911624673421743216}

@@ -32,14 +32,9 @@ namespace Controllers
             {
                 transform.GetChild(2).GetComponent<TargetController>().StartSimulation();
             }
-            if (GameObject.FindWithTag("Player")) return;
+            // if (GameObject.FindWithTag("Player")) return;
             
             // Instantiate(player,player1Spawn.position,Quaternion.identity);
-        }
-
-        void Update()
-        {
-
         }
 
         /// Close game

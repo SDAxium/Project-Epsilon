@@ -12,12 +12,7 @@ namespace Controllers
         public InputHelpers.Button teleportActivationButton;
 
         public float activationThreshold = 0.1f;
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
-    
+
         void Update()
         {
             if (leftTeleportRay)

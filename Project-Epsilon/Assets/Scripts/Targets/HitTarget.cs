@@ -18,45 +18,50 @@ namespace Targets
         public Color playerTwoColor2 = new(132,14,0);
         
         public GameObject origin;
-        // public PhotonView photonView;
+        // public PhotonView photonView; 
 
         // Multiplayer Thing
         /// <summary>
         /// Using this to track which player can shoot this target. 0 is both. 1 is player 1. 2 is player 2
         /// </summary>
-        private int _canTakeBulletsFrom = 0;
+        public int _canTakeBulletsFrom;
 
+        
+        /// <summary>
+        /// Reference to the last bullet that hit this target
+        /// </summary>
         public GameObject collidingBullet = null;
         
         private Material _targetBaseMaterial, _targetBase2Material, _targetEyeMaterial;
 
-        //Base Color and Eye Color are the same
+        // Base Color and Eye Color are the same
         private Color _baseColor, _base2Color;
 
         private const int Stationary = 0;
         private const int Strafing = 1;
         private const int Oscillating = 2;
-        private int _targetMode;
+        
+        private int _targetMode; // The current mode of the target. 0 is stationary. 1 is strafing. 2 is oscillating
         
         // GLOBAL TARGET VALUES
-        public GameObject targetPlayer;
-        private Vector3 _spawnPoint;
-        public AudioClip spawnSound;
-
-        private float Timer;
-        public bool targetActive;
-        public float targetSpeed;
+        public GameObject targetPlayer; // The player that this target locks onto while moving around
+        private Vector3 _spawnPoint;    // Spawn point of the target
+        public AudioClip spawnSound; // The sound that is played when the target is spawned. Todo: put something here
+        
+        public bool targetActive; // Whether a target will be updated. If false, target gameobject is disabled
+        public float targetSpeed; // The movement speed, if any, of the target
         // GLOBAL TARGET VALUES
         
         // STRAFING TARGET VALUES
-        private Vector3 _pointOne;
-        private Vector3 _pointTwo;
-        private int _strafeCase;
-        private float _strafeDistance;
-        private float _distanceFromPlayer;
+        private Vector3 _pointOne; // starting point
+        private Vector3 _pointTwo; // end point
+        private int _strafeCase; // Whether the target moves along the X,Y,Z,XY,XZ,YZ axis. Values are from 0 to 5 respectively
+        private float _strafeDistance; // Distance between point one and point two
+        private float _distanceFromPlayer; // initial distance from player
         // STRAFING TARGET VALUES
         
         // OSCILLATING TARGET VALUES
+        private float Timer; // for oscillating targets. How far along the orbit the target is.
         private float _rotationHeight;
         private float _rotationWidth;
         
@@ -68,8 +73,8 @@ namespace Targets
 
         private MeshRenderer _meshRenderer;
         public PhotonView photonView;
-
         // OSCILLATING TARGET VALUES
+        
         private void Awake()
         {
             photonView = GetComponent<PhotonView>();
@@ -123,11 +128,6 @@ namespace Targets
             // SetNewRandomValues();
         }
 
-        private void Update()
-        {
-            
-        }
-
         [PunRPC]
         void UpdateColors()
         {
@@ -160,7 +160,6 @@ namespace Targets
         [PunRPC]
         public void SetNewRandomValues()
         {
-            //_canTakeBulletsFrom = Random.Range(0, SceneManager.GetActiveScene().buildIndex == 0 ? 2 : 3);
             _canTakeBulletsFrom = SceneManager.GetActiveScene().buildIndex == 0 ? 1 : Random.Range(0, 3);
             photonView.RPC(nameof(UpdateColors),RpcTarget.All);
             switch (_targetMode)
@@ -196,16 +195,20 @@ namespace Targets
         }
 
         [PunRPC]
-        public void SetStationaryValues(int canTakeBulletsFrom,int distance,int spawnPointX, int spawnPointY,int spawnPointZ)
+        public void SetStationaryValues(int canTakeBulletsFrom,int distance,float spawnPointX, 
+            float spawnPointY,float spawnPointZ)
         {
             _canTakeBulletsFrom = canTakeBulletsFrom;
             _distanceFromPlayer = distance;
             _spawnPoint = new Vector3(spawnPointX,spawnPointY,spawnPointZ);
             targetSpeed = Random.Range(0.5f, 1.3f); 
+            UpdateColors();
+            // UpdateController();
         }
 
         [PunRPC]
-        public void SetStrafingValues(int canTakeBulletsFrom,int distance,int spawnPointX, int spawnPointY,int spawnPointZ, int strafeCase, int strafeDistance,float speed)
+        public void SetStrafingValues(int canTakeBulletsFrom,int distance,float spawnPointX, float spawnPointY,
+            float spawnPointZ, int strafeCase, int strafeDistance,float speed)
         {
             _canTakeBulletsFrom = canTakeBulletsFrom;
             _distanceFromPlayer = distance;
@@ -213,10 +216,13 @@ namespace Targets
             _strafeCase = strafeCase;
             _strafeDistance = strafeDistance;
             targetSpeed = speed; 
+            UpdateColors();
+            // UpdateController();
         }
         
         [PunRPC]
-        public void SetOscillatingValues(int canTakeBulletsFrom,float timer,float rotationHeight, float rotationWidth, int oscillationCase, int rotationCenterX,int rotationCenterY,int rotationCenterZ, float speed)
+        public void SetOscillatingValues(int canTakeBulletsFrom,float timer,float rotationHeight, float rotationWidth, 
+            int oscillationCase, float rotationCenterX,float rotationCenterY,float rotationCenterZ, float speed)
         {
             _canTakeBulletsFrom = canTakeBulletsFrom;
             Timer = timer;
@@ -225,9 +231,10 @@ namespace Targets
             _oscillationCase = oscillationCase;
             SetRotationCenter(new Vector3(rotationCenterX,rotationCenterY,rotationCenterZ));
             targetSpeed = speed; 
+            UpdateColors();
+            // UpdateController();
         }
-
-        [PunRPC]
+        
         public void UpdateLocation()
         {
             Timer += Time.deltaTime*targetSpeed;
@@ -236,6 +243,10 @@ namespace Targets
                 case Stationary:
                     // TODO: make it jiggle left and right or something. Being absolutely still is kinda wack 
                     transform.position = _spawnPoint;
+                    if (_spawnPoint.x <= 1 && _spawnPoint.z <= 1)
+                    {
+                        transform.position = _spawnPoint + Vector3.left + Vector3.back;
+                    }
                     break;
                 case Strafing:
                     switch (_strafeCase)
@@ -306,8 +317,9 @@ namespace Targets
                     transform.position = _spawnPoint;
                     break;
             }
-            transform.LookAt(targetPlayer.transform);
-            transform.Rotate(Vector3.right,90f);
+            transform.LookAt(targetPlayer.transform); // Look at the target player
+            transform.Rotate(Vector3.right,90f); // The base game object is rotated weirdly.
+                                                 // This makes it so  the eye is what looks at the player
         }
 
         [PunRPC]
@@ -323,22 +335,60 @@ namespace Targets
             _rotationCenterY = rotationCenter.y;
             _rotationCenterZ = rotationCenter.z;
         }
-        
+
+        public void UpdateController()
+        {
+            // GameObject.Find("Game Manager").transform.GetChild(2).GetComponent<TargetController>().activeTargets.Add(gameObject);
+        }
+
+        private void OnCollisionStay(Collision other)
+        {
+            
+            
+        }
+
         public void OnCollisionEnter(Collision other)
         {
+            if (other.gameObject.CompareTag("Pillar"))
+            {
+                if (_targetMode != 0) return;
+                gameObject.transform.position = Vector3.MoveTowards(transform.position,
+                    new Vector3(0, transform.position.y, 0), 1 * Time.deltaTime);
+            }
             
             if (!other.gameObject.CompareTag("Bullet")) return;
             collidingBullet = other.gameObject;
+            
+            if (SceneManager.GetActiveScene().buildIndex == 2)
+            {
+                int scoreAddon;
+                if (_canTakeBulletsFrom == 0)
+                {
+                    scoreAddon = 10;    
+                }
+                else if (collidingBullet.GetComponent<Bullet>().playerRef != _canTakeBulletsFrom)
+                {
+                    scoreAddon = -5;
+                }
+                else
+                {
+                    scoreAddon = 20;
+                }
+                GameObject.Find("ScoreManager").GetComponent<ScoreManager>().UpdateScore(scoreAddon);
+                DeactivateTarget();
+                return;
+            }
             if (other.gameObject.GetComponent<Bullet>().playerRef != _canTakeBulletsFrom && _canTakeBulletsFrom != 0) return;
             
             
             if (SceneManager.GetActiveScene().buildIndex == 1 && 
                 (other.gameObject.GetComponent<Bullet>().playerRef == _canTakeBulletsFrom || _canTakeBulletsFrom == 0))
             {
-                photonView.RPC(nameof(UpdateScore),RpcTarget.All);    
+                photonView.RPC(nameof(UpdateScore),RpcTarget.All);   
+                photonView.RPC(nameof(DeactivateTarget),RpcTarget.All);
             }
-
-            photonView.RPC(nameof(DeactivateTarget),RpcTarget.All);
+            
+            DeactivateTarget();
             
         }
 

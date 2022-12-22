@@ -2,9 +2,6 @@ using Controllers;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using Photon.Pun;
-using Unity.XR.CoreUtils;
-using UnityEngine.InputSystem.XR;
-using XRController = UnityEngine.XR.Interaction.Toolkit.XRController;
 
 namespace Multiplayer
 {
@@ -12,39 +9,44 @@ namespace Multiplayer
     {
         public int currentScore;
         public int reference;
-
-
+        
         private GameObject _gameManager;
         private PhotonView _photonView;
-        // Start is called before the first frame update
-        void Start()
+        
+        private void Start()
         {
-            _gameManager = GameObject.Find("Game Manager");
+            _gameManager = GameObject.Find("Game Manager"); 
             _photonView = GetComponent<PhotonView>();
-            if (PhotonNetwork.IsConnectedAndReady)
+            
+            if (PhotonNetwork.IsConnectedAndReady) // If connected to the photon servers
             {
-                print($"Player at 0 is local: {PhotonNetwork.PlayerList[0].IsLocal}");
+                // Photon has a sorted list of all players in a room. Check if the local player is the first one in the 
+                // room and set their variables according to that 
                 reference = PhotonNetwork.PlayerList[0].IsLocal ? 1 : 2;
                 gameObject.name = PhotonNetwork.PlayerList[0].IsLocal ? "Player One" : "Player Two";
             }
             
             if (_photonView.IsMine)
             {
+                // TODO: There is definitely a better way to look for the fade screen. Look for it and remove this comment
                 _gameManager.transform.GetChild(3).GetComponent<SceneTransitionManager>().fadeScreen 
                     = gameObject.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<FadeScreen>();
             }
             else
             {
+                // Turns off the audio listeners in the scene for players that aren't local. 
                 GetComponent<AudioListener>().enabled = false;
-                // turn off everything that isnt mine
-                
             }
         }
 
-        // Update is called once per frame
-        void Update()
+        /// <summary>
+        /// I am using it to send the game object of the player over the network.  This allows other players to access
+        /// the current player's game object
+        /// </summary>
+        /// <param name="info"></param>
+        public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
-        
+            info.Sender.TagObject = gameObject;
         }
         
         [PunRPC]
@@ -62,11 +64,11 @@ namespace Multiplayer
             _gameManager.GetComponent<GameManager>().SetScoreText();
         }
 
-        public void OnPhotonInstantiate(PhotonMessageInfo info)
-        {
-            info.Sender.TagObject = gameObject;
-        }
-        
+        /// <summary>
+        /// Takes the teleport area of the floor and sets the provider for it to the player
+        ///
+        /// Note: This is now obsolete as teleportation areas are no longer used. 
+        /// </summary>
         public void SetAreaProvider()
         {
             GameObject.Find("Ground").GetComponent<TeleportationArea>().teleportationProvider =

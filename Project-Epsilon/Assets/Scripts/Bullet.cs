@@ -4,7 +4,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     /// <summary>
-    /// The gun that fired this bullet
+    /// The gun that fired this bullet 
     /// </summary>
     public Gun gunOrigin; 
     
@@ -63,7 +63,7 @@ public class Bullet : MonoBehaviour
                 active = false; // Disable the bullet
                 return;
             }
-            else if (collision.gameObject.CompareTag("Teleport Anchor"))
+            if (collision.gameObject.CompareTag("Teleport Anchor"))
             {
                 isTeleportEnabled = false; // Disable Teleporting
                 gunOrigin.GetCurrentPlayer().transform.position = collision.gameObject.transform.GetChild(0).position; // Move the player to the anchor of the area hit
@@ -72,9 +72,9 @@ public class Bullet : MonoBehaviour
             }
         }
 
+        // If the bullet is not hitting the gun or another bullet. Todo: take a look at the gun collision box. It's probably why the bullet was being deactivated
         if (!collision.gameObject.CompareTag("Bullet") && !collision.gameObject.CompareTag("Gun"))
         {
-            print($"Colliding with {collision.gameObject.name}");
             active = false;
         }
     }

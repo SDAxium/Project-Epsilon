@@ -14,15 +14,14 @@ public class Gun : MonoBehaviour
     
     public AudioClip chamberEmpty;
     public AudioClip gunReload;
-    
-    protected int _currentBullets;
+
+    public int _currentBullets;
     public int maxBullets = 30;
-    protected int _reloadTime;
 
     private TextMeshProUGUI _bulletCountText; 
     
     public GameObject bulletController;// Reference to the bullet controller object
-    protected BulletController _bc;
+    public BulletController _bc;
     public Transform bulletSpawnPoint;
     
     public AudioSource audioSource;
@@ -32,7 +31,7 @@ public class Gun : MonoBehaviour
     public int currentPlayerReference;
 
     public ParticleSystem ps;
-    protected virtual void Awake()
+    private void Awake()
     {
         foreach (InputActionReference reference in toggleToTeleport)
         {
@@ -74,13 +73,10 @@ public class Gun : MonoBehaviour
             currentPlayerReference = reference;
             Reload();
         }
-
-        print($"reference is now {currentPlayerReference}");
     }
 
     void ToggleTeleport(InputAction.CallbackContext context)
     {
-        print($"Teleport is: {teleportOn}");
         if (GetComponent<XRGrabInteractable>().interactorsSelecting != null)
         {
             teleportOn = !teleportOn;
@@ -110,7 +106,8 @@ public class Gun : MonoBehaviour
         bullet.transform.rotation = bulletSpawnPoint.rotation;
         
         //print($"Last interactor is: {GetComponent<XRGrabInteractable>().GetOldestInteractorSelecting().transform.gameObject.name}");
-        GetComponent<XRGrabInteractable>().GetOldestInteractorSelecting().transform.gameObject.GetComponent<ActionBasedController>().SendHapticImpulse(0.7f, .1f);
+        GetComponent<XRGrabInteractable>().GetOldestInteractorSelecting().transform.gameObject.
+            GetComponent<ActionBasedController>().SendHapticImpulse(0.7f, .1f);
         AudioSource.PlayClipAtPoint(gunshotClip,position);
         var em = ps.emission;
         var dur = ps.main.duration;
@@ -127,7 +124,6 @@ public class Gun : MonoBehaviour
             bullet.GetComponent<Bullet>().isTeleportEnabled = teleportOn;
             teleportOn = false;
         }
-        
     }
 
     private IEnumerator DisableEmitter(float duration)
@@ -136,8 +132,6 @@ public class Gun : MonoBehaviour
         ps.Stop();
         var em = ps.emission;
         em.enabled = false;
-        
-
     }
     public void Reload()
     {

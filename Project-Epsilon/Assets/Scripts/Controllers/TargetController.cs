@@ -100,7 +100,7 @@ namespace Controllers
                 int distance;
                 int strafeCase;
                 int strafeDistance;
-                int timer;
+                float timer;
                 float rotationHeight;
                 float rotationWidth;
                 int oscillationCase;
@@ -149,7 +149,7 @@ namespace Controllers
                         oscillationCase = Random.Range(1, 4);
                         
                         bulletTargetHitScript.photonView.RPC("SetOscillatingValues",RpcTarget.All,
-                            canTakeBulletsFrom,timer,rotationHeight,rotationWidth,origin.x,origin.y,origin.z,targetSpeed);
+                            canTakeBulletsFrom,timer,rotationHeight,rotationWidth,oscillationCase,origin.x,origin.y,origin.z,targetSpeed);
                         break;
                     case 3://All Targets
                         int tm = Random.Range(0, 4);
@@ -186,13 +186,13 @@ namespace Controllers
                                 bulletTargetHitScript.photonView.RPC("SetTargetMode",RpcTarget.All,2);
                                 //int canTakeBulletsFrom,float timer,float rotationHeight, float rotationWidth, int oscillationCase, int rotationCenterX,int rotationCenterY,int rotationCenterZ
                                 canTakeBulletsFrom = SceneManager.GetActiveScene().buildIndex == 0 ? 1 : Random.Range(0, 3);
-                                timer = Random.Range(0, 181);
+                                timer = Random.Range(0f, 181f);
                                 rotationHeight = Random.Range(4.0f, 16.0f);
                                 rotationWidth = Random.Range(4.0f, 16.0f);
                                 oscillationCase = Random.Range(1, 4);
                         
                                 bulletTargetHitScript.photonView.RPC("SetOscillatingValues",RpcTarget.All,
-                                    canTakeBulletsFrom,timer,rotationHeight,rotationWidth,origin.x,origin.y,origin.z,targetSpeed);
+                                    canTakeBulletsFrom,timer,rotationHeight,rotationWidth,oscillationCase,origin.x,origin.y,origin.z,targetSpeed);
                                 break;
                             default:
                                 bulletTargetHitScript.photonView.RPC("SetTargetMode",RpcTarget.All,0); 
@@ -228,9 +228,21 @@ namespace Controllers
                 activeTargets.Add(bulletTarget);
                 bulletTargetHitScript.targetActive = true;
                 bulletTarget.SetActive(true);
+                
+                //_photonView.RPC("EnableActiveTargets",RpcTarget.All);
             }
             yield return new WaitForSeconds(waitTime);
             yield return TargetSpawning();
+        }
+
+        [PunRPC]
+        void EnableActiveTargets()
+        {
+            foreach (var target in activeTargets)
+            {
+                target.GetComponent<HitTarget>().targetActive = true;
+                target.SetActive(true);
+            }
         }
         
         /// <summary>
@@ -243,6 +255,12 @@ namespace Controllers
             activeTargets.Remove(target); // Remove from active targets
             inactiveTargets.Add(target); // Add to inactive targets
             target.SetActive(false); // Turn target visibility off
+        }
+
+        [PunRPC]
+        public void AddToActive()
+        {
+                    
         }
     
         /// <summary>

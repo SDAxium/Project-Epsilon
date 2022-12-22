@@ -18,7 +18,7 @@ namespace Multiplayer
                 gameObject.GetComponent<NetworkPlayerSpawner>().OnJoinedRoom();
             }
 
-            if (SceneManager.GetActiveScene().buildIndex == 1)
+            if (SceneManager.GetActiveScene().buildIndex == 1 || SceneManager.GetActiveScene().buildIndex == 2)
             {
                 ConnectToServer();
             }

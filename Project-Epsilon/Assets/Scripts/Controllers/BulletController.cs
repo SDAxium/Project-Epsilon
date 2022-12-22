@@ -36,10 +36,8 @@ namespace Controllers
             if(activeBullets.Count > 0) UpdateBullets();
         }
 
-        // ReSharper disable Unity.PerformanceAnalysis
         private void UpdateBullets()
         {
-            // ReSharper disable once ForCanBeConvertedToForeach
             // It cannot be converted to a foreach loop. The contents of activeBullets get changed so it would break
             for (var bulletIndex = 0; bulletIndex < activeBullets.Count; bulletIndex++)
             {

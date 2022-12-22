@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Controllers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
@@ -40,7 +41,10 @@ public class Timer : MonoBehaviour
     public void StartTimer()
     {
         stopTimer = false;
-        GameObject.Find("Canvas").SetActive(false);
+        if (SceneManager.GetActiveScene().buildIndex != 2)
+        {
+            GameObject.Find("Canvas").SetActive(false);   
+        }
     }
 
     // Update is called once per frame
@@ -75,10 +79,24 @@ public class Timer : MonoBehaviour
         
         if (time <= 0)
         {
-            GameObject.Find("Canvas").SetActive(true);
+            if (SceneManager.GetActiveScene().buildIndex != 2)
+            {
+                GameObject.Find("Canvas").SetActive(true);   
+            }
             stopTimer = true;
             time = 0;
-            _targetController.EndSimulation();
+            if (SceneManager.GetActiveScene().buildIndex == 2)
+            {
+                transform.GetChild(2).GetComponent<SinglePlayerTargetController>().EndSimulation();
+                GameObject.Find("ScoreBoard").transform.GetChild(2).gameObject.SetActive(true);
+                time = 30;
+                Init();
+            }
+            else
+            {
+                _targetController.EndSimulation();    
+            }
+            
             return;
         }
         

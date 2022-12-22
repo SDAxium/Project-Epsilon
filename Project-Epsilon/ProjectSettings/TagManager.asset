@@ -9,6 +9,7 @@ TagManager:
   - TeleportArea
   - Gun
   - Teleport Anchor
+  - Pillar
   layers:
   - Default
   - TransparentFX

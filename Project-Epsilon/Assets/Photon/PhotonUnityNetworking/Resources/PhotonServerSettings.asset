@@ -51,6 +51,13 @@ MonoBehaviour:
   - PutAwayTarget
   - UpdateTargets
   - SetStationaryValues
+  - SetOscillatingValues
+  - SetStrafingValues
+  - SetRotationCenter
+  - SetTargetMode
+  - UpdateColor
+  - AddToActive
+  - EnableActiveTargets
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
